@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Liste des Congés</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date de Début</th>
+          <th>Date de Fin</th>
+          <th>Statut</th>
+          <th>Date de Validation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let conge of conges">
+          <td>{{ conge.idC }}</td>
+          <td>{{ conge.dateDebut | date }}</td>
+          <td>{{ conge.dateFin | date }}</td>
+          <td>{{ conge.status }}</td>
+          <td>{{ conge.dateValidation | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

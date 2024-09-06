@@ -1,0 +1,177 @@
+/* Style général de la section */
+.vh-100 {
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Fond de la section */
+}
+
+/* Style de la carte */
+.card {
+    border-radius: 25px;
+}
+
+/* Titre du formulaire */
+h1.fw-bold {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* Style des icônes */
+.form-outline i {
+    color: #007bff; /* Couleur bleue des icônes */
+    font-size: 1.5rem; /* Taille des icônes */
+    margin-right: 10px; /* Espacement entre l'icône et le champ */
+}
+
+/* Style des champs de saisie */
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    padding: 15px;
+    font-size: 1rem;
+}
+
+/* Espacement entre les champs de saisie et les icônes */
+.d-flex.flex-row.align-items-center.mb-4 {
+    margin-bottom: 20px;
+}
+
+/* Style du bouton d'inscription */
+.btn-primary {
+    padding: 10px 30px;
+    font-size: 1.25rem;
+    border-radius: 30px;
+}
+
+/* Ajustement de l'image à droite */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 25px;
+}
+
+/* Style pour le conteneur de formulaire */
+.register-container {
+    background-color: #ffffff; /* Fond blanc pour le conteneur */
+    border-radius: 8px; /* Coins arrondis pour le conteneur */
+    padding: 2rem; /* Espacement à l'intérieur du conteneur */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la profondeur */
+}
+
+/* Styling for the form title */
+.register-container h1 {
+    color: #333; /* Dark gray for the heading */
+    margin-bottom: 1.5rem; /* Space below the heading */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 1.5rem; /* Space between form groups */
+}
+
+/* Styling for form labels */
+.form-label {
+    font-weight: bold; /* Bold text for labels */
+    color: #555; /* Slightly lighter gray for labels */
+}
+
+/* Styling for select fields */
+.form-select {
+    border: 1px solid #dcdcdc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners for select field */
+    padding: 0.75rem; /* Padding inside select field */
+    font-size: 1rem; /* Font size for select text */
+}
+
+/* Styling for submit button */
+.btn-primary {
+    background-color: #007bff; /* Bright blue for button */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners for button */
+    color: #fff; /* White text color */
+    padding: 0.75rem; /* Padding inside button */
+    font-size: 1rem; /* Font size for button text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Styling for success and error messages */
+.alert {
+    margin-top: 1rem; /* Space above messages */
+    padding: 1rem; /* Padding inside messages */
+    border-radius: 4px; /* Rounded corners for messages */
+    font-size: 1rem; /* Font size for message text */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text color */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text color */
+}
+
+/* Custom styles */
+.vh-100 {
+    height: 100vh;
+    background-color: #eee;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.card-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+.contact-form input, .contact-form textarea {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.mx-1.mx-md-4 {
+    margin: 0 1rem;
+}
+
+.d-flex.justify-content-center.mx-4.mb-3.mb-lg-4 {
+    margin-top: 20px;
+}
+/* Updated image styling */
+.img-fluid.rounded-pill {
+    border-radius: 50px; /* Ensures the image has pill-shaped rounded corners */
+}
+
+/* General styles for vh-100 background */
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+/* Adjustments for the card */
+.card {
+    border-radius: 25px;
+}
+
+/* Style for form elements */
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    padding: 15px;
+    font-size: 1rem;
+}
+
+/* Style for the submit button */
+.btn-primary {
+    padding: 10px 30px;
+    font-size: 1.25rem;
+    border-radius: 30px;
+}
