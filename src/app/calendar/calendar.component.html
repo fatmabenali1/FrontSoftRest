@@ -1,45 +1,70 @@
-<!-- Title of the calendar -->
-<h1 class="calendar-title">Calendrier</h1>
-
-<!-- Controls for the calendar view -->
-<div class="calendar-controls-container">
-  <div class="calendar-controls">
-    <!-- Navigation buttons -->
-    <div class="calendar-navigation-buttons">
-      <button class="btn btn-primary" (click)="goToToday()">Aujourd'hui</button>
-      <button class="btn btn-primary" (click)="goToPreviousMonth()">Mois Précédent</button>
-      <button class="btn btn-primary" (click)="goToNextMonth()">Mois Suivant</button>
-    </div>
-
-    <!-- Event action buttons -->
-    <div class="event-actions" *ngIf="selectedDay">
-      <button class="btn btn-primary" (click)="addEvent(selectedDay)">Ajouter</button>
-      <button class="btn btn-secondary" (click)="updateEvent(selectedDay)">Modifier</button>
-      <button class="btn btn-danger" (click)="deleteEvent(selectedDay)">Supprimer</button>
-    </div>
+<div class="container">
+  <h2>Calendrier des Événements</h2>
+  
+  <!-- Boutons pour naviguer entre les mois -->
+  <div class="navigation-buttons">
+    <button class="btn btn-secondary" (click)="prevMonth()">Mois Précédent</button>
+    <button class="btn btn-secondary" (click)="today()">Aujourd'hui</button>
+    <button class="btn btn-secondary" (click)="nextMonth()">Mois Suivant</button>
   </div>
-</div>
 
-<!-- Calendar display -->
-<div class="calendar-container">
+  <!-- Boucle sur les jours du mois pour afficher les dates -->
   <div class="calendar">
-    <!-- Calendar header with days of the month -->
-    <div class="calendar-header">
-      <span *ngFor="let day of getDaysInMonth(viewDate)">
-        <button (click)="selectDay(day)">{{ day | date:'dd' }}</button>
-      </span>
-    </div>
-
-    <!-- Calendar body with days -->
-    <div class="calendar-body">
-      <!-- Loop to display the days of the month -->
-      <div *ngFor="let day of getDaysInMonth(viewDate)" class="day-cell" [ngClass]="{'today': isToday(day)}" (click)="selectDay(day)">
-        <div class="day-number">{{ day | date:'dd' }}</div>
-        <!-- Display events for the day -->
-        <div *ngFor="let event of getEventsForDay(day)" class="event" (click)="eventClicked('view', event)">
+    <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
+      <button (click)="openModal(content, day)" class="btn btn-light">
+        {{ day | date: 'dd/MM/yyyy' }}
+      </button>
+      <div class="date-info">
+        <!-- Affiche les événements pour ce jour -->
+        <div *ngFor="let event of getEventsForDay(day)" class="event">
           {{ event.title }}
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Modal pour l'ajout d'un événement -->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Ajouter un événement</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="eventTitle">Titre de l'événement:</label>
+        <input type="text" class="form-control" id="eventTitle" [(ngModel)]="eventTitle" name="eventTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Date de début:</label>
+        <input type="date" class="form-control" id="startDate" [(ngModel)]="startDate" name="startDate" required>
+      </div>
+      <div class="form-group">
+        <label for="endDate">Date de fin:</label>
+        <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate" name="endDate" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Statut:</label>
+        <input type="text" class="form-control" id="status" [(ngModel)]="status" name="status" required>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
+      <button type="button" class="btn btn-primary" (click)="saveEvent()">Sauvegarder</button>
+    </div>
+  </ng-template>
+
+  <hr>
+
+  <!-- Liste des événements -->
+  <div *ngIf="events.length > 0">
+    <h3>Événements ajoutés :</h3>
+    <ul>
+      <li *ngFor="let event of events">
+        {{ event.title }} - {{ event.startDate | date:'shortDate' }} au {{ event.endDate | date:'shortDate' }} ({{ event.status }})
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="events.length === 0">
+    <p>Aucun événement pour le moment.</p>
   </div>
 </div>

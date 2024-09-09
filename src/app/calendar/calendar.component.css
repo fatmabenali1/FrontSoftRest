@@ -176,4 +176,25 @@ body {
   .event:hover {
     background-color: #218838;
   }
+  .calendar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .calendar-day {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .date-info {
+    margin-top: 10px;
+  }
+  
+  .event {
+    font-size: 0.9em;
+    color: #555;
+  }
   
