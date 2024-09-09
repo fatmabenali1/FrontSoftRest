@@ -1,32 +1,43 @@
 <div class="container">
   <h2>Calendrier des Événements</h2>
   
-  <!-- Boutons pour naviguer entre les mois -->
-  <div class="navigation-buttons">
+  <!-- Sélecteur de mois et boutons de navigation -->
+  <div class="calendar-controls">
     <button class="btn btn-secondary" (click)="prevMonth()">Mois Précédent</button>
-    <button class="btn btn-secondary" (click)="today()">Aujourd'hui</button>
+    <select class="form-select month-selector" (change)="changeMonth($event)" [ngModel]="viewDate.getMonth()">
+      <option *ngFor="let month of months" [value]="month.index">{{ month.name }}</option>
+    </select>
     <button class="btn btn-secondary" (click)="nextMonth()">Mois Suivant</button>
   </div>
 
-  <!-- Boucle sur les jours du mois pour afficher les dates -->
-  <div class="calendar">
-    <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
-      <button (click)="openModal(content, day)" class="btn btn-light">
-        {{ day | date: 'dd/MM/yyyy' }}
-      </button>
-      <div class="date-info">
-        <!-- Affiche les événements pour ce jour -->
-        <div *ngFor="let event of getEventsForDay(day)" class="event">
-          {{ event.title }}
+  <!-- Affichage du calendrier -->
+  <div class="calendar-grid">
+    <div class="calendar-header">
+      <div *ngFor="let dayName of ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']" class="calendar-day-name">
+        {{ dayName }}
+      </div>
+    </div>
+    <div class="calendar-body">
+      <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
+        <button (click)="openModal(content, day)" class="btn btn-light">
+          {{ day | date: 'dd' }}
+        </button>
+        <div class="date-info">
+          <!-- Affiche les événements pour ce jour -->
+          <div *ngFor="let event of getEventsForDay(day)" class="event">
+            {{ event.title }}
+            <button class="btn btn-warning btn-sm" (click)="editEvent(event, content)">Modifier</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteEvent(event)">Supprimer</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal pour l'ajout d'un événement -->
+  <!-- Modal pour l'ajout ou la modification d'un événement -->
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Ajouter un événement</h4>
+      <h4 class="modal-title">{{ isEditing ? 'Modifier un événement' : 'Ajouter un événement' }}</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
@@ -49,7 +60,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
-      <button type="button" class="btn btn-primary" (click)="saveEvent()">Sauvegarder</button>
+      <button type="button" class="btn btn-primary" (click)="isEditing ? updateEvent() : saveEvent()">Sauvegarder</button>
     </div>
   </ng-template>
 
@@ -61,6 +72,8 @@
     <ul>
       <li *ngFor="let event of events">
         {{ event.title }} - {{ event.startDate | date:'shortDate' }} au {{ event.endDate | date:'shortDate' }} ({{ event.status }})
+        <button class="btn btn-warning btn-sm" (click)="editEvent(event, content)">Modifier</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteEvent(event)">Supprimer</button>
       </li>
     </ul>
   </div>
