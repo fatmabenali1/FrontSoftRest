@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CongesListComponent } from './conges-list/conges-list.component';
 import { CongeFormComponent } from './conge-form/conge-form.component';
+import { CalendarComponent } from './calendar/calendar.component'; // Import CalendarComponent
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,16 @@ import { CongeFormComponent } from './conge-form/conge-form.component';
     LoginComponent,
     CongesListComponent,
     CongeFormComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule // Add HttpClientModule here
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

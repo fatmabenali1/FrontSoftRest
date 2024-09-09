@@ -1,0 +1,45 @@
+<!-- Title of the calendar -->
+<h1 class="calendar-title">Calendrier</h1>
+
+<!-- Controls for the calendar view -->
+<div class="calendar-controls-container">
+  <div class="calendar-controls">
+    <!-- Navigation buttons -->
+    <div class="calendar-navigation-buttons">
+      <button class="btn btn-primary" (click)="goToToday()">Aujourd'hui</button>
+      <button class="btn btn-primary" (click)="goToPreviousMonth()">Mois Précédent</button>
+      <button class="btn btn-primary" (click)="goToNextMonth()">Mois Suivant</button>
+    </div>
+
+    <!-- Event action buttons -->
+    <div class="event-actions" *ngIf="selectedDay">
+      <button class="btn btn-primary" (click)="addEvent(selectedDay)">Ajouter</button>
+      <button class="btn btn-secondary" (click)="updateEvent(selectedDay)">Modifier</button>
+      <button class="btn btn-danger" (click)="deleteEvent(selectedDay)">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Calendar display -->
+<div class="calendar-container">
+  <div class="calendar">
+    <!-- Calendar header with days of the month -->
+    <div class="calendar-header">
+      <span *ngFor="let day of getDaysInMonth(viewDate)">
+        <button (click)="selectDay(day)">{{ day | date:'dd' }}</button>
+      </span>
+    </div>
+
+    <!-- Calendar body with days -->
+    <div class="calendar-body">
+      <!-- Loop to display the days of the month -->
+      <div *ngFor="let day of getDaysInMonth(viewDate)" class="day-cell" [ngClass]="{'today': isToday(day)}" (click)="selectDay(day)">
+        <div class="day-number">{{ day | date:'dd' }}</div>
+        <!-- Display events for the day -->
+        <div *ngFor="let event of getEventsForDay(day)" class="event" (click)="eventClicked('view', event)">
+          {{ event.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

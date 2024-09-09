@@ -1,0 +1,61 @@
+<section class="vh-100 bg-light">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <a class="navbar-brand" href="#">Softrest</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/manage-leaves">Manage Leaves</a>
+          </li>
+          <!-- Add more navigation items as needed -->
+        </ul>
+      </div>
+    </nav>
+  
+    <!-- Manage Leaves Section -->
+    <div class="container mt-4">
+      <div class="row mb-3">
+        <div class="col">
+          <h2 class="text-center">Manage Leaves</h2>
+          <button class="btn btn-primary" (click)="addLeave()">Add New Leave</button>
+        </div>
+      </div>
+  
+      <!-- Error message -->
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+  
+      <!-- Leaves Table -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let conge of conges">
+            <td>{{ conge.idC }}</td>
+            <td>{{ conge.dateDebut | date }}</td>
+            <td>{{ conge.dateFin | date }}</td>
+            <td>{{ conge.status }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editLeave(conge.idC)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteLeave(conge.idC)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
