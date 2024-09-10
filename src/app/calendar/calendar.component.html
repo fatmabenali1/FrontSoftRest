@@ -1,17 +1,19 @@
-<div class="container">
-  <h2>Calendrier des Événements</h2>
-  
-  <!-- Sélecteur de mois et boutons de navigation -->
-  <div class="calendar-controls">
-    <button class="btn btn-secondary" (click)="prevMonth()">Mois Précédent</button>
-    <select class="form-select month-selector" (change)="changeMonth($event)" [ngModel]="viewDate.getMonth()">
-      <option *ngFor="let month of months" [value]="month.index">{{ month.name }}</option>
-    </select>
-    <button class="btn btn-secondary" (click)="nextMonth()">Mois Suivant</button>
+<div class="container mt-5">
+  <div class="text-center">
+    <!-- Affichage de l'année et du mois actuel -->
+    <h2>{{ viewDate | date: 'yyyy' }}</h2>
+    <h4>{{ viewDate | date: 'MMMM yyyy' }}</h4>
+
+    <!-- Boutons de navigation pour les mois -->
+    <div class="mb-3">
+      <button class="btn btn-primary" (click)="prevMonth()">Mois Précédent</button>
+      <button class="btn btn-primary" (click)="goToToday()">Aujourd'hui</button>
+      <button class="btn btn-primary" (click)="nextMonth()">Mois Suivant</button>
+    </div>
   </div>
 
-  <!-- Affichage du calendrier -->
-  <div class="calendar-grid">
+  <!-- Affichage du calendrier avec les jours du mois -->
+  <div class="calendar">
     <div class="calendar-header">
       <div *ngFor="let dayName of ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']" class="calendar-day-name">
         {{ dayName }}
@@ -19,13 +21,13 @@
     </div>
     <div class="calendar-body">
       <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
-        <button (click)="openModal(content, day)" class="btn btn-light">
+        <button (click)="openModal(content, day)" [ngClass]="{'selected-day': isDateSelected(day)}">
           {{ day | date: 'dd' }}
         </button>
         <div class="date-info">
           <!-- Affiche les événements pour ce jour -->
           <div *ngFor="let event of getEventsForDay(day)" class="event">
-            {{ event.title }}
+            {{ event.title }} ({{ event.status }})
             <button class="btn btn-warning btn-sm" (click)="editEvent(event, content)">Modifier</button>
             <button class="btn btn-danger btn-sm" (click)="deleteEvent(event)">Supprimer</button>
           </div>
@@ -60,7 +62,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
-      <button type="button" class="btn btn-primary" (click)="isEditing ? updateEvent() : saveEvent()">Sauvegarder</button>
+      <button type="button" class="btn btn-primary" [disabled]="!isFormValid()" (click)="isEditing ? updateEvent() : saveEvent()">Sauvegarder</button>
     </div>
   </ng-template>
 

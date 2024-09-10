@@ -1,7 +1,7 @@
 /* Styles globaux */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
   }
@@ -9,234 +9,78 @@ body {
   /* Titre du calendrier */
   .calendar-title {
     text-align: center;
-    color: #343a40;
+    color: #333;
     margin: 20px 0;
     font-size: 2em;
   }
   
   /* Conteneur des contrôles */
-  .calendar-controls-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Conteneur des contrôles du calendrier */
   .calendar-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
   }
   
   /* Styles pour les contrôles du calendrier */
-  .calendar-controls label {
-    margin-right: 10px;
-  }
-  
-  .calendar-controls input,
-  .calendar-controls select {
-    padding: 5px;
-    border: 1px solid #ced4da;
+  .calendar-controls button, .calendar-controls select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    margin: 0 5px;
+    font-size: 1em;
+    background-color: #ffffff;
+    color: #333;
+  }
+  
+  .calendar-controls button {
+    background-color: #0078d4;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .calendar-controls button:hover {
+    background-color: #005a9e;
   }
   
   .calendar-controls select {
-    width: 150px;
-  }
-  
-  /* Conteneur des boutons de navigation */
-  .calendar-navigation-buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .calendar-navigation-buttons .btn {
-    padding: 8px 12px;
-    font-size: 0.875em;
-  }
-  
-  /* Boutons spécifiques */
-  .btn-primary {
-    background-color: #8ca8c6;
-    border: none;
-    color: #ffffff;
-  }
-  
-  .btn-primary:hover {
-    background-color: #3f546b;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-    color: #ffffff;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #5a6268;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-    border: none;
-    color: #ffffff;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-  
-  /* Actions des événements */
-  .event-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .event-actions .btn {
-    padding: 8px 12px;
-    font-size: 0.875em;
+    width: auto;
   }
   
   /* Styles pour le calendrier */
-  .calendar-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-  }
-  
-  .calendar {
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 100%;
-    max-width: 900px;
-  }
-  
-  .calendar-header {
-    justify-content: space-between;
-    align-items: center;
-    background-color: #dce2e8;
-    color: #ffffff;
-    padding: 10px;
-  }
-  
-  .calendar-header .btn {
-    color: #ffffff;
-    background-color: #0056b3;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-  }
-  
-  .calendar-body {
+  .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 1px;
-    background-color: #e9ecef;
+    background-color: #e0e0e0;
   }
   
-  .day-cell {
+  .calendar-header {
+    display: contents;
+  }
+  
+  .calendar-day-name {
+    text-align: center;
+    background-color: #0078d4;
+    color: #ffffff;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #0078d4;
+  }
+  
+  .calendar-body {
+    display: contents;
+  }
+  
+  .calendar-day {
     background-color: #ffffff;
-    border: 1px solid #dee2e6;
+    border: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
     position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .day-cell.today {
-    background-color: #9fc8ec;
-    color: #160e0e;
-  }
-  
-  .day-number {
-    font-size: 1.25em;
-  }
-  
-  .event {
-    background-color: #28a745;
-    color: #ffffff;
-    padding: 5px;
-    border-radius: 4px;
-    margin-top: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .event:hover {
-    background-color: #218838;
-  }
-  
-  /* Calendrier grid spécifique */
-  .calendar {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .calendar-day {
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid #0c0a0a;
-    border-radius: 4px;
-    text-align: center;
-  }
-  
-  .date-info {
-    margin-top: 10px;
-  }
-  
-  .event {
-    font-size: 0.9em;
-    color: #555;
-  }
-  
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .calendar-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .month-selector {
-    width: 150px;
-  }
-  
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-  }
-  
-  .calendar-header, .calendar-body {
-    display: contents;
-  }
-  
-  .calendar-day-name, .calendar-day {
-    text-align: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #080707;
-    border-radius: 4px;
-  }
-  
-  .calendar-day-name {
-    color: #000; /* Couleur des noms des jours */
   }
   
   .calendar-day button {
@@ -247,24 +91,34 @@ body {
     cursor: pointer;
   }
   
-  .calendar-day .date-info {
-    margin-top: 5px;
+  .date-info {
+    margin-top: 10px;
   }
   
   .event {
-    background: #e0e0e0;
+    background-color: #0078d4;
+    color: #ffffff;
     padding: 5px;
     border-radius: 4px;
-    margin-bottom: 5px;
+    margin-top: 5px;
   }
   
   .event button {
     margin-left: 5px;
+    background-color: #ffffff;
+    color: #0078d4;
+    border: 1px solid #0078d4;
   }
   
+  .event button:hover {
+    background-color: #e0e0e0;
+    color: #005a9e;
+  }
+  
+  /* Styles pour le modal */
   .modal-header {
     background-color: #0078d4;
-    color: rgb(20, 18, 18);
+    color: #ffffff;
   }
   
   .modal-body {
@@ -272,12 +126,12 @@ body {
   }
   
   .modal-footer {
-    background-color: #272323;
+    background-color: #f0f0f0;
   }
   
   .btn-secondary {
     background-color: #0078d4;
-    color: white;
+    color: #ffffff;
   }
   
   .btn-secondary:hover {
@@ -286,7 +140,7 @@ body {
   
   .btn-primary {
     background-color: #0078d4;
-    color: rgb(17, 16, 16);
+    color: #ffffff;
   }
   
   .btn-primary:hover {
@@ -294,11 +148,65 @@ body {
   }
   
   .btn-light {
-    background-color: #151414;
-    border: 1px solid #121010;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
   }
   
   .btn-light:hover {
-    background-color: #1b1919;
+    background-color: #f0f0f0;
   }
   
+  .btn-warning {
+    background-color: #ffc107;
+    color: #000;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  
+  .calendar-header {
+    display: contents;
+  }
+  
+  .calendar-day-name, .calendar-day {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .calendar-day button {
+    width: 100%;
+  }
+  
+  .selected-day {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .date-info {
+    margin-top: 5px;
+  }
+  
+  .event {
+    margin-top: 5px;
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+   

@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, startOfToday, setMonth } from 'date-fns';
+
+interface Event {
+  id: number;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  status: string;
+}
 
 @Component({
   selector: 'app-calendar',
@@ -9,110 +16,115 @@ import { startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, star
 })
 export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
-  events: any[] = [];
+  events: Event[] = [];
   eventTitle: string = '';
   startDate: Date | null = null;
   endDate: Date | null = null;
   status: string = '';
-  selectedEvent: any = null;
   isEditing: boolean = false;
-  months: { name: string, index: number }[] = [
-    { name: 'Janvier', index: 0 },
-    { name: 'Février', index: 1 },
-    { name: 'Mars', index: 2 },
-    { name: 'Avril', index: 3 },
-    { name: 'Mai', index: 4 },
-    { name: 'Juin', index: 5 },
-    { name: 'Juillet', index: 6 },
-    { name: 'Août', index: 7 },
-    { name: 'Septembre', index: 8 },
-    { name: 'Octobre', index: 9 },
-    { name: 'Novembre', index: 10 },
-    { name: 'Décembre', index: 11 }
-  ];
+  eventIdToEdit: number | null = null;
 
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {}
 
   getDaysInMonth(date: Date): Date[] {
-    const start = startOfMonth(date);
-    const end = endOfMonth(date);
-    return eachDayOfInterval({ start, end });
+    const days: Date[] = [];
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const numDays = new Date(year, month + 1, 0).getDate();
+
+    for (let day = 1; day <= numDays; day++) {
+      days.push(new Date(year, month, day));
+    }
+
+    return days;
   }
 
-  getEventsForDay(day: Date): any[] {
+  prevMonth(): void {
+    this.viewDate.setMonth(this.viewDate.getMonth() - 1);
+    this.viewDate = new Date(this.viewDate); // Refresh the view
+  }
+
+  nextMonth(): void {
+    this.viewDate.setMonth(this.viewDate.getMonth() + 1);
+    this.viewDate = new Date(this.viewDate); // Refresh the view
+  }
+
+  goToToday(): void {
+    this.viewDate = new Date();
+  }
+
+  isDateSelected(day: Date): boolean {
+    // Logic to check if a date is selected (can be expanded)
+    return false;
+  }
+
+  getEventsForDay(day: Date): Event[] {
     return this.events.filter(event => 
-      new Date(event.startDate).toDateString() === day.toDateString());
+      new Date(event.startDate).toDateString() === day.toDateString() || 
+      (new Date(event.startDate) <= day && new Date(event.endDate) >= day)
+    );
   }
 
   openModal(content: any, day: Date): void {
     this.startDate = day;
     this.endDate = day;
-    this.isEditing = false;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content);
   }
 
   saveEvent(): void {
-    if (this.eventTitle && this.startDate && this.endDate && this.status) {
-      this.events.push({
-        title: this.eventTitle,
-        startDate: this.startDate,
-        endDate: this.endDate,
-        status: this.status
-      });
-      this.resetForm();
-    }
+    const newEvent: Event = {
+      id: this.events.length + 1,
+      title: this.eventTitle,
+      startDate: this.startDate!,
+      endDate: this.endDate!,
+      status: this.status
+    };
+    this.events.push(newEvent);
+    this.modalService.dismissAll();
+    this.resetForm();
   }
 
-  editEvent(event: any, content: any): void {
-    this.selectedEvent = event;
-    this.eventTitle = event.title;
-    this.startDate = new Date(event.startDate);
-    this.endDate = new Date(event.endDate);
-    this.status = event.status;
+  editEvent(event: Event, content: any): void {
     this.isEditing = true;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.eventTitle = event.title;
+    this.startDate = event.startDate;
+    this.endDate = event.endDate;
+    this.status = event.status;
+    this.eventIdToEdit = event.id;
+    this.modalService.open(content);
   }
 
   updateEvent(): void {
-    if (this.eventTitle && this.startDate && this.endDate && this.status && this.selectedEvent) {
-      this.selectedEvent.title = this.eventTitle;
-      this.selectedEvent.startDate = this.startDate;
-      this.selectedEvent.endDate = this.endDate;
-      this.selectedEvent.status = this.status;
-      this.resetForm();
+    const eventIndex = this.events.findIndex(event => event.id === this.eventIdToEdit);
+    if (eventIndex !== -1) {
+      this.events[eventIndex] = {
+        id: this.eventIdToEdit!,
+        title: this.eventTitle,
+        startDate: this.startDate!,
+        endDate: this.endDate!,
+        status: this.status
+      };
     }
+    this.modalService.dismissAll();
+    this.resetForm();
   }
 
-  deleteEvent(eventToDelete: any): void {
-    this.events = this.events.filter(event => event !== eventToDelete);
+  deleteEvent(event: Event): void {
+    this.events = this.events.filter(e => e.id !== event.id);
   }
 
-  prevMonth(): void {
-    this.viewDate = subMonths(this.viewDate, 1);
+  isFormValid(): boolean {
+    return this.eventTitle && this.startDate && this.endDate && this.status ? true : false;
   }
 
-  nextMonth(): void {
-    this.viewDate = addMonths(this.viewDate, 1);
-  }
-
-  today(): void {
-    this.viewDate = startOfToday();
-  }
-
-  changeMonth(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const monthIndex = Number(target.value);
-    this.viewDate = setMonth(this.viewDate, monthIndex);
-  }
-
-  private resetForm(): void {
+  resetForm(): void {
     this.eventTitle = '';
     this.startDate = null;
     this.endDate = null;
     this.status = '';
-    this.selectedEvent = null;
     this.isEditing = false;
+    this.eventIdToEdit = null;
   }
 }
