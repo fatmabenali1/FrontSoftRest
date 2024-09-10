@@ -1,4 +1,3 @@
-// src/app/services/conge.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,32 +8,31 @@ import { Conge } from '../models/conge';
 })
 export class CongeService {
 
-  private apiUrl = 'http://localhost:3000/conges'; // Adjust to your backend URL
-
+  private apiUrl = 'http://localhost:8087/conges'; 
   constructor(private http: HttpClient) {}
 
-  // Get all congés
+  // Récupérer tous les congés
   getConges(): Observable<Conge[]> {
     return this.http.get<Conge[]>(this.apiUrl);
   }
 
-  // Get a single congé by id
-  getConge(id: string): Observable<Conge> {
-    return this.http.get<Conge>(`${this.apiUrl}/${id}`);
+  // Récupérer un congé par ID
+  getConge(idC: string): Observable<Conge> {
+    return this.http.get<Conge>(`${this.apiUrl}/${idC}`);
   }
 
-  // Add a new congé
+  // Ajouter un nouveau congé
   addConge(conge: Conge): Observable<Conge> {
-    return this.http.post<Conge>(this.apiUrl, conge);
+    return this.http.post<Conge>(this.apiUrl, conge);  // Utilisez this.apiUrl ici
   }
 
-  // Update an existing congé
-  updateConge(id: string, conge: Conge): Observable<Conge> {
-    return this.http.put<Conge>(`${this.apiUrl}/${id}`, conge);
+  // Mettre à jour un congé existant
+  updateConge(idC: string, conge: Conge): Observable<Conge> {
+    return this.http.put<Conge>(`${this.apiUrl}/${idC}`, conge);
   }
 
-  // Delete a congé
-  deleteConge(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  // Supprimer un congé
+  deleteConge(idC: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${idC}`);
   }
 }

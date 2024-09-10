@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-interface Event {
-  id: number;
-  title: string;
-  startDate: Date;
-  endDate: Date;
-  status: string;
-}
+import { CongeService } from '../services/conge.service';
+import { Conge } from '../models/conge';
 
 @Component({
   selector: 'app-calendar',
@@ -16,17 +10,40 @@ interface Event {
 })
 export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
-  events: Event[] = [];
+  events: Conge[] = [];
   eventTitle: string = '';
   startDate: Date | null = null;
   endDate: Date | null = null;
   status: string = '';
   isEditing: boolean = false;
-  eventIdToEdit: number | null = null;
+  eventIdToEdit: string | null = null;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private congeService: CongeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getConges();
+  }
+
+  getConges(): void {
+    this.congeService.getConges().subscribe(
+      (conges: Conge[]) => this.events = conges,
+      (error) => console.error('Erreur lors du chargement des congés', error)
+    );
+  }
+
+  prevMonth(): void {
+    this.viewDate.setMonth(this.viewDate.getMonth() - 1);
+    this.viewDate = new Date(this.viewDate);
+  }
+
+  nextMonth(): void {
+    this.viewDate.setMonth(this.viewDate.getMonth() + 1);
+    this.viewDate = new Date(this.viewDate);
+  }
+
+  goToToday(): void {
+    this.viewDate = new Date();
+  }
 
   getDaysInMonth(date: Date): Date[] {
     const days: Date[] = [];
@@ -41,29 +58,14 @@ export class CalendarComponent implements OnInit {
     return days;
   }
 
-  prevMonth(): void {
-    this.viewDate.setMonth(this.viewDate.getMonth() - 1);
-    this.viewDate = new Date(this.viewDate); // Refresh the view
-  }
-
-  nextMonth(): void {
-    this.viewDate.setMonth(this.viewDate.getMonth() + 1);
-    this.viewDate = new Date(this.viewDate); // Refresh the view
-  }
-
-  goToToday(): void {
-    this.viewDate = new Date();
-  }
-
   isDateSelected(day: Date): boolean {
-    // Logic to check if a date is selected (can be expanded)
-    return false;
+    return false; // Ajustez selon la logique de sélection
   }
 
-  getEventsForDay(day: Date): Event[] {
-    return this.events.filter(event => 
-      new Date(event.startDate).toDateString() === day.toDateString() || 
-      (new Date(event.startDate) <= day && new Date(event.endDate) >= day)
+  getEventsForDay(day: Date): Conge[] {
+    return this.events.filter(event =>
+      new Date(event.dateDebut).toDateString() === day.toDateString() ||
+      (new Date(event.dateDebut) <= day && new Date(event.dateFin) >= day)
     );
   }
 
@@ -73,50 +75,89 @@ export class CalendarComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  saveEvent(): void {
-    const newEvent: Event = {
-      id: this.events.length + 1,
-      title: this.eventTitle,
-      startDate: this.startDate!,
-      endDate: this.endDate!,
-      status: this.status
+  addConge(): void {
+    if (!this.isFormValid()) {
+      console.error('Formulaire invalide');
+      return;
+    }
+
+    const newConge: any = {
+      dateDebut: this.startDate!,
+      dateFin: this.endDate!,
+      status: this.status,
+      dateValidation: new Date(), // Date actuelle pour validation
+      title: this.eventTitle // Ajoutez le titre
     };
-    this.events.push(newEvent);
-    this.modalService.dismissAll();
-    this.resetForm();
+
+    this.congeService.addConge(newConge).subscribe(
+      (conge: Conge) => {
+        this.events.push(conge);
+        this.modalService.dismissAll();
+        this.resetForm();
+      },
+      (error) => {
+        console.error('Erreur lors de l\'ajout du congé', error);
+        alert('Erreur lors de l\'ajout du congé');
+      }
+    );
   }
 
-  editEvent(event: Event, content: any): void {
+  editConge(event: Conge, content: any): void {
     this.isEditing = true;
-    this.eventTitle = event.title;
-    this.startDate = event.startDate;
-    this.endDate = event.endDate;
+    this.eventTitle = event.title || ''; // Utilisez le titre de l'événement
+    this.startDate = event.dateDebut;
+    this.endDate = event.dateFin;
     this.status = event.status;
-    this.eventIdToEdit = event.id;
+    this.eventIdToEdit = event.idC;
     this.modalService.open(content);
   }
 
-  updateEvent(): void {
-    const eventIndex = this.events.findIndex(event => event.id === this.eventIdToEdit);
-    if (eventIndex !== -1) {
-      this.events[eventIndex] = {
-        id: this.eventIdToEdit!,
-        title: this.eventTitle,
-        startDate: this.startDate!,
-        endDate: this.endDate!,
-        status: this.status
-      };
+  updateConge(): void {
+    if (!this.isFormValid()) {
+      console.error('Formulaire invalide');
+      return;
     }
-    this.modalService.dismissAll();
-    this.resetForm();
+
+    const updatedConge: Conge = {
+      idC: this.eventIdToEdit!,
+      dateDebut: this.startDate!,
+      dateFin: this.endDate!,
+      status: this.status,
+      dateValidation: new Date(),
+      title: this.eventTitle // Ajoutez le titre
+    };
+
+    this.congeService.updateConge(this.eventIdToEdit!, updatedConge).subscribe(
+      (conge: Conge) => {
+        const index = this.events.findIndex(event => event.idC === this.eventIdToEdit);
+        if (index !== -1) {
+          this.events[index] = conge;
+        }
+        this.modalService.dismissAll();
+        this.resetForm();
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour du congé', error);
+        alert('Erreur lors de la mise à jour du congé');
+      }
+    );
   }
 
-  deleteEvent(event: Event): void {
-    this.events = this.events.filter(e => e.id !== event.id);
+  deleteConge(event: Conge): void {
+    console.log(event);
+    this.congeService.deleteConge(event.idC).subscribe(
+      () => {
+        this.events = this.events.filter(e => e.idC !== event.idC);
+      },
+      (error) => {
+        console.error('Erreur lors de la suppression du congé', error);
+        alert('Erreur lors de la suppression du congé');
+      }
+    );
   }
 
   isFormValid(): boolean {
-    return this.eventTitle && this.startDate && this.endDate && this.status ? true : false;
+    return this.startDate !== null && this.endDate !== null && this.status.trim() !== '' && this.eventTitle.trim() !== '';
   }
 
   resetForm(): void {

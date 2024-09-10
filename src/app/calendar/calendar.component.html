@@ -21,15 +21,15 @@
     </div>
     <div class="calendar-body">
       <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
-        <button (click)="openModal(content, day)" [ngClass]="{'selected-day': isDateSelected(day)}">
+        <button (click)="openModal(content, day)" [ngClass]="{'selected-day': isDateSelected(day)}" class="btn btn-light">
           {{ day | date: 'dd' }}
         </button>
         <div class="date-info">
           <!-- Affiche les événements pour ce jour -->
           <div *ngFor="let event of getEventsForDay(day)" class="event">
-            {{ event.title }} ({{ event.status }})
-            <button class="btn btn-warning btn-sm" (click)="editEvent(event, content)">Modifier</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteEvent(event)">Supprimer</button>
+            <span>{{ event.title }} ({{ event.status }})</span>
+            <button class="btn btn-warning btn-sm ms-2" (click)="editConge(event, content)">Modifier</button>
+            <button class="btn btn-danger btn-sm ms-2" (click)="deleteConge(event)">Supprimer</button>
           </div>
         </div>
       </div>
@@ -39,12 +39,12 @@
   <!-- Modal pour l'ajout ou la modification d'un événement -->
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">{{ isEditing ? 'Modifier un événement' : 'Ajouter un événement' }}</h4>
+      <h4 class="modal-title">{{ isEditing ? 'Modifier un congé' : 'Ajouter un congé' }}</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label for="eventTitle">Titre de l'événement:</label>
+        <label for="eventTitle">Titre du congé:</label>
         <input type="text" class="form-control" id="eventTitle" [(ngModel)]="eventTitle" name="eventTitle" required>
       </div>
       <div class="form-group">
@@ -62,7 +62,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
-      <button type="button" class="btn btn-primary" [disabled]="!isFormValid()" (click)="isEditing ? updateEvent() : saveEvent()">Sauvegarder</button>
+      <button type="button" class="btn btn-primary" [disabled]="!isFormValid()" (click)="isEditing ? updateConge() : addConge()">Sauvegarder</button>
     </div>
   </ng-template>
 
@@ -70,16 +70,16 @@
 
   <!-- Liste des événements -->
   <div *ngIf="events.length > 0">
-    <h3>Événements ajoutés :</h3>
+    <h3>Congés ajoutés :</h3>
     <ul>
       <li *ngFor="let event of events">
-        {{ event.title }} - {{ event.startDate | date:'shortDate' }} au {{ event.endDate | date:'shortDate' }} ({{ event.status }})
-        <button class="btn btn-warning btn-sm" (click)="editEvent(event, content)">Modifier</button>
-        <button class="btn btn-danger btn-sm" (click)="deleteEvent(event)">Supprimer</button>
+        {{ event.title }} - {{ event.dateDebut | date:'shortDate' }} au {{ event.dateFin | date:'shortDate' }} ({{ event.status }})
+        <button class="btn btn-warning btn-sm ms-2" (click)="editConge(event, content)">Modifier</button>
+        <button class="btn btn-danger btn-sm ms-2" (click)="deleteConge(event)">Supprimer</button>
       </li>
     </ul>
   </div>
   <div *ngIf="events.length === 0">
-    <p>Aucun événement pour le moment.</p>
+    <p>Aucun congé pour le moment.</p>
   </div>
 </div>

@@ -13,6 +13,9 @@ import { CongesListComponent } from './conges-list/conges-list.component';
 import { CongeFormComponent } from './conge-form/conge-form.component';
 import { CalendarComponent } from './calendar/calendar.component'; // Import CalendarComponent
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { CommonModule } from '@angular/common';
     LoginComponent,
     CongesListComponent,
     CongeFormComponent,
-    CalendarComponent
+    CalendarComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,9 +35,13 @@ import { CommonModule } from '@angular/common';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     CommonModule,
-    NgbModalModule
+    NgbModalModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmDialogComponent] // Assurez-vous que ConfirmDialogComponent est correctement ajouté
+
 })
 export class AppModule { }
