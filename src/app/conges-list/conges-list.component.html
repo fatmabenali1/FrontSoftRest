@@ -3,22 +3,24 @@
     <table class="table table-hover">
       <thead >
         <tr  >
-          <th  >ID</th>
+          <th  >Nom et  Prenom</th>
           <th>Date de Début</th>
           <th>Date de Fin</th>
           <th>Raison</th>
           <th>Date de dépot</th>
+          <th> Solde de conges</th>
           <th> Statut</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let conge of conges">
-          <td>{{ conge.idC }}</td>
+          <td>{{ conge.fullName }}</td>
           <td>{{ conge.dateDebut | date }}</td>
           <td>{{ conge.dateFin | date }}</td>
           <td>{{ conge.reason }}</td>
           <td>{{ conge.dateValidation | date }}</td>
+          <td>{{conge.countVacation}}</td>
           <td class="{{conge.status}}">
             {{conge.status}}
           </td>
