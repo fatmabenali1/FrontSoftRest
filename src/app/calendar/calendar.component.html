@@ -1,7 +1,6 @@
 <div class="container mt-5">
   <div class="text-center">
     <!-- Affichage de l'année et du mois actuel -->
-    <h2>{{ viewDate | date: 'yyyy' }}</h2>
     <h4>{{ viewDate | date: 'MMMM yyyy' }}</h4>
 
     <!-- Boutons de navigation pour les mois -->
@@ -22,12 +21,13 @@
     <div class="calendar-body">
       <div *ngFor="let day of getDaysInMonth(viewDate)" class="calendar-day">
         <button (click)="openModal(content, day)" [ngClass]="{'selected-day': isDateSelected(day)}" class="btn btn-light">
+
           {{ day | date: 'dd' }}
         </button>
         <div class="date-info">
           <!-- Affiche les événements pour ce jour -->
           <div *ngFor="let event of getEventsForDay(day)" class="event">
-            <span>{{ event.title }} ({{ event.status }})</span>
+            <span class="{{ event.status}}">{{ event.status }} </span>
             <button class="btn btn-warning btn-sm ms-2" (click)="editConge(event, content)">Modifier</button>
             <button class="btn btn-danger btn-sm ms-2" (click)="deleteConge(event)">Supprimer</button>
           </div>
@@ -44,8 +44,8 @@
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label for="eventTitle">Titre du congé:</label>
-        <input type="text" class="form-control" id="eventTitle" [(ngModel)]="eventTitle" name="eventTitle" required>
+        <label for="eventTitle">Titre:</label>
+        <input type="text" class="form-control" id="eventTitle" [(ngModel)]="eventTitle" name="Title" required>
       </div>
       <div class="form-group">
         <label for="startDate">Date de début:</label>
@@ -56,9 +56,10 @@
         <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate" name="endDate" required>
       </div>
       <div class="form-group">
-        <label for="status">Statut:</label>
-        <input type="text" class="form-control" id="status" [(ngModel)]="status" name="status" required>
+        <label for="reason">Raison:</label>
+        <input type="text" class="form-control" id="reason" [(ngModel)]="reason" name="reason" required>
       </div>
+      
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Annuler</button>
@@ -73,13 +74,14 @@
     <h3>Congés ajoutés :</h3>
     <ul>
       <li *ngFor="let event of events">
-        {{ event.title }} - {{ event.dateDebut | date:'shortDate' }} au {{ event.dateFin | date:'shortDate' }} ({{ event.status }})
+        {{ event.title }} - {{ event.dateDebut | date:'shortDate' }} au {{ event.dateFin | date:'shortDate' }} ({{ event.reason }})
+        <p> votre status de date 
+          {{event.status}}</p>
         <button class="btn btn-warning btn-sm ms-2" (click)="editConge(event, content)">Modifier</button>
         <button class="btn btn-danger btn-sm ms-2" (click)="deleteConge(event)">Supprimer</button>
       </li>
     </ul>
   </div>
-  <div *ngIf="events.length === 0">
-    <p>Aucun congé pour le moment.</p>
-  </div>
+
+ 
 </div>

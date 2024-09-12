@@ -1,13 +1,15 @@
 <div class="container">
     <h2>Liste des Congés</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
+    <table class="table table-hover">
+      <thead >
+        <tr  >
+          <th  >ID</th>
           <th>Date de Début</th>
           <th>Date de Fin</th>
-          <th>Statut</th>
-          <th>Date de Validation</th>
+          <th>Raison</th>
+          <th>Date de dépot</th>
+          <th> Statut</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -15,10 +17,18 @@
           <td>{{ conge.idC }}</td>
           <td>{{ conge.dateDebut | date }}</td>
           <td>{{ conge.dateFin | date }}</td>
-          <td>{{ conge.status }}</td>
+          <td>{{ conge.reason }}</td>
           <td>{{ conge.dateValidation | date }}</td>
+          <td class="{{conge.status}}">
+            {{conge.status}}
+          </td>
+          <td>
+            <button name="refuse" type="button" (click)="refuseVacation(conge)"  class="btn btn-light">Refuser</button>
+            <button name="validate" type="button" (click)="validateVacation(conge)" class="btn btn-secondary">Valider </button>
+          </td>
         </tr>
       </tbody>
     </table>
+
   </div>
   

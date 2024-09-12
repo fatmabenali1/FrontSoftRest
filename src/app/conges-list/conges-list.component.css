@@ -1,0 +1,9 @@
+.PENDING{
+    color:orange;
+}
+.REFUSED{
+    color:red;
+}
+.VALIDATED{
+    color :green;
+}

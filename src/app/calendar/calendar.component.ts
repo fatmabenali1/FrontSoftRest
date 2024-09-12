@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CongeService } from '../services/conge.service';
 import { Conge } from '../models/conge';
+import { Status } from '../status';
 
 @Component({
   selector: 'app-calendar',
@@ -14,11 +15,12 @@ export class CalendarComponent implements OnInit {
   eventTitle: string = '';
   startDate: Date | null = null;
   endDate: Date | null = null;
-  status: string = '';
+  reason: string = '';
   isEditing: boolean = false;
   eventIdToEdit: string | null = null;
 
   constructor(private modalService: NgbModal, private congeService: CongeService) {}
+  conges: Conge[] = [];
 
   ngOnInit(): void {
     this.getConges();
@@ -73,6 +75,7 @@ export class CalendarComponent implements OnInit {
     this.startDate = day;
     this.endDate = day;
     this.modalService.open(content);
+    console.log(day);
   }
 
   addConge(): void {
@@ -84,9 +87,10 @@ export class CalendarComponent implements OnInit {
     const newConge: any = {
       dateDebut: this.startDate!,
       dateFin: this.endDate!,
-      status: this.status,
+      reason: this.reason,
       dateValidation: new Date(), // Date actuelle pour validation
-      title: this.eventTitle // Ajoutez le titre
+      title: this.eventTitle ,
+      status:Status.PENDING
     };
 
     this.congeService.addConge(newConge).subscribe(
@@ -107,7 +111,7 @@ export class CalendarComponent implements OnInit {
     this.eventTitle = event.title || ''; // Utilisez le titre de l'événement
     this.startDate = event.dateDebut;
     this.endDate = event.dateFin;
-    this.status = event.status;
+    this.reason = event.reason;
     this.eventIdToEdit = event.idC;
     this.modalService.open(content);
   }
@@ -122,7 +126,8 @@ export class CalendarComponent implements OnInit {
       idC: this.eventIdToEdit!,
       dateDebut: this.startDate!,
       dateFin: this.endDate!,
-      status: this.status,
+      reason: this.reason,
+      status: Status.PENDING,
       dateValidation: new Date(),
       title: this.eventTitle // Ajoutez le titre
     };
@@ -157,14 +162,14 @@ export class CalendarComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    return this.startDate !== null && this.endDate !== null && this.status.trim() !== '' && this.eventTitle.trim() !== '';
+    return this.startDate !== null && this.endDate !== null && this.reason?.trim() !== '' && this.eventTitle?.trim() !== '';
   }
 
   resetForm(): void {
     this.eventTitle = '';
     this.startDate = null;
     this.endDate = null;
-    this.status = '';
+    this.reason = '';
     this.isEditing = false;
     this.eventIdToEdit = null;
   }

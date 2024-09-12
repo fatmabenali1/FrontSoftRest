@@ -48,7 +48,7 @@
             <td>{{ conge.idC }}</td>
             <td>{{ conge.dateDebut | date }}</td>
             <td>{{ conge.dateFin | date }}</td>
-            <td>{{ conge.status }}</td>
+            <td>{{ conge.reason }}</td>
             <td>
               <button class="btn btn-warning btn-sm" (click)="editLeave(conge.idC)">Edit</button>
               <button class="btn btn-danger btn-sm" (click)="deleteLeave(conge.idC)">Delete</button>

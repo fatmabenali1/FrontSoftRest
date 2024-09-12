@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CongeService } from '../services/conge.service';
 import { Conge } from '../models/conge';
+import { Status } from '../status';
 
 @Component({
   selector: 'app-conge-form',
@@ -39,7 +40,7 @@ export class CongeFormComponent implements OnInit {
     this.congeForm = this.fb.group({
       dateDebut: ['', Validators.required],
       dateFin: ['', Validators.required],
-      status: ['En attente', Validators.required],
+      reason: ['', Validators.required],
       dateValidation: ['']  // Not required initially
     });
   }
