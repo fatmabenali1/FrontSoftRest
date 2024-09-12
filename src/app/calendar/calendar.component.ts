@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CongeService } from '../services/conge.service';
 import { Conge } from '../models/conge';
 import { Status } from '../status';
@@ -12,6 +12,7 @@ import { Status } from '../status';
 export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   events: Conge[] = [];
+  conges: Conge[] = [];
   eventTitle: string = '';
   startDate: Date | null = null;
   endDate: Date | null = null;
@@ -19,8 +20,8 @@ export class CalendarComponent implements OnInit {
   isEditing: boolean = false;
   eventIdToEdit: string | null = null;
 
-  constructor(private modalService: NgbModal, private congeService: CongeService) {}
-  conges: Conge[] = [];
+  constructor(private modalService: NgbModal, private congeService: CongeService   ) {}
+ 
 
   ngOnInit(): void {
     this.getConges();
@@ -75,7 +76,6 @@ export class CalendarComponent implements OnInit {
     this.startDate = day;
     this.endDate = day;
     this.modalService.open(content);
-    console.log(day);
   }
 
   addConge(): void {
@@ -106,6 +106,7 @@ export class CalendarComponent implements OnInit {
     );
   }
 
+  
   editConge(event: Conge, content: any): void {
     this.isEditing = true;
     this.eventTitle = event.title || ''; // Utilisez le titre de l'événement
@@ -173,4 +174,5 @@ export class CalendarComponent implements OnInit {
     this.isEditing = false;
     this.eventIdToEdit = null;
   }
+ 
 }
