@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  user: Utilisateur = { nom: '', role: '', password: '' }; // Initialisation du modèle utilisateur
+  user: Utilisateur = { username: '', role: '', password: '' }; // Initialisation du modèle utilisateur
   roles: string[] = ['COLLABORATEUR', 'TECHLEAD', 'RH']; // Liste des rôles disponibles
   registerErrorMessage: string | null = null;
   successMessage: string | null = null; // For successful registration messages
@@ -38,7 +38,7 @@ export class RegisterComponent {
 
   private isFormValid(): boolean {
     // Basic form validation with checks for undefined or empty values
-    return this.user.nom?.trim() !== '' &&
+    return this.user.username?.trim() !== '' &&
            this.user.role?.trim() !== '' &&
            this.user.password?.trim() !== '';
   }

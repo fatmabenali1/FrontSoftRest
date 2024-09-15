@@ -15,18 +15,29 @@ export class AuthenticationService {
         private router: Router,
         private http: HttpClient
     ) {
-        this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+        // Vérifiez si 'user' existe dans localStorage et parsez uniquement si ce n'est pas null
+        const userJson = localStorage.getItem('user');
+        let user: User | null = null;
+        if (userJson) {
+            try {
+                user = JSON.parse(userJson);
+            } catch (error) {
+                console.error('Erreur lors de la lecture du JSON de localStorage:', error);
+                // Vous pouvez gérer l'erreur ou réinitialiser l'utilisateur ici si nécessaire
+            }
+        }
+        this.userSubject = new BehaviorSubject<User | null>(user);
         this.user = this.userSubject.asObservable();
     }
 
-    public get userValue() {
+    public get userValue(): User | null {
         return this.userSubject.value;
     }
 
     login(username: string, password: string) {
         return this.http.post<any>(`/users/authenticate`, { username, password })
             .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                // stocke les détails de l'utilisateur et le jeton JWT dans localStorage pour maintenir la connexion entre les actualisations de page
                 localStorage.setItem('user', JSON.stringify(user));
                 this.userSubject.next(user);
                 console.log(user);
@@ -35,7 +46,7 @@ export class AuthenticationService {
     }
 
     logout() {
-        // remove user from local storage to log user out
+        // supprime l'utilisateur de localStorage pour déconnecter l'utilisateur
         localStorage.removeItem('user');
         this.userSubject.next(null);
         this.router.navigate(['/loginn']);

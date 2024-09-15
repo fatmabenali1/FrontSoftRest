@@ -9,14 +9,14 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  utilisateur: Utilisateur = { email: '', password: '' }; // Initialisation du modèle utilisateur
+  utilisateur: Utilisateur = { username: '', password: '' }; // Initialisation du modèle utilisateur
   loginErrorMessage: string | null = null; // Assurez-vous que cette propriété est définie
 
   constructor(private authService: AuthService) { }
 
   onLogin(): void { // Assurez-vous que cette méthode est définie
-    if (this.utilisateur.email && this.utilisateur.password) {
-      this.authService.login(this.utilisateur.email, this.utilisateur.password).subscribe(
+    if (this.utilisateur.username && this.utilisateur.password) {
+      this.authService.login(this.utilisateur.username, this.utilisateur.password).subscribe(
         (response: any) => {
           console.log('Utilisateur connecté avec succès', response);
           this.loginErrorMessage = null;
