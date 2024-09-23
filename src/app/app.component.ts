@@ -16,11 +16,14 @@ export class AppComponent {
         this.authenticationService.user.subscribe(x => this.user = x);
     }
 
-    get isAdmin() {
+    get isCOLLABORATEUR() {
         return this.user?.role === Role.COLLABORATEUR;
     }
 
     logout() {
         this.authenticationService.logout();
+    }
+    isAuthenticated(){
+      return this.authenticationService.userValue 
     }
 }

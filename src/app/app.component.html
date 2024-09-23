@@ -1,3 +1,3 @@
-<button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
+<button class="btn btn-link nav-item nav-link" (click)="logout()" *ngIf="isAuthenticated()">Logout</button>
 
 <router-outlet></router-outlet>
