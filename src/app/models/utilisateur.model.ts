@@ -5,5 +5,6 @@ export class Utilisateur {
     email?: string;
     password?: string;   // Veillez à sécuriser ce champ correctement
     role?: string;       // Exemples : "COLLABORATEUR", "TECHLEAD", "RH"
+    token?:String;
   }
   

@@ -3,6 +3,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CongeService } from '../services/conge.service';
 import { Conge } from '../models/conge';
 import { Status } from '../status';
+import { Utilisateur } from '../models/utilisateur.model';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-calendar',
@@ -20,7 +22,8 @@ export class CalendarComponent implements OnInit {
   isEditing: boolean = false;
   eventIdToEdit: string | null = null;
 
-  constructor(private modalService: NgbModal, private congeService: CongeService   ) {}
+  constructor(private modalService: NgbModal, private congeService: CongeService ,
+     private authenticationService : AuthenticationService  ) {}
  
 
   ngOnInit(): void {
@@ -83,29 +86,38 @@ export class CalendarComponent implements OnInit {
       console.error('Formulaire invalide');
       return;
     }
-
+  
     const newConge: any = {
       dateDebut: this.startDate!,
       dateFin: this.endDate!,
       reason: this.reason,
       dateValidation: new Date(), // Date actuelle pour validation
-      title: this.eventTitle ,
-      status:Status.PENDING
+      title: this.eventTitle,
+      status: Status.PENDING
     };
+  
+    const user = this.authenticationService.userValue;
+  
+    if (!user || !user.idU) {
+      console.error('Utilisateur non authentifié ou ID utilisateur non défini');
+      return;
+    }
+    this.congeService.addConge(newConge, user.idU).subscribe(
+      (conge) => {
+        if (conge){
+          this.events.push(conge);
 
-    this.congeService.addConge(newConge).subscribe(
-      (conge: Conge) => {
-        this.events.push(conge);
+        }
         this.modalService.dismissAll();
         this.resetForm();
       },
       (error) => {
         console.error('Erreur lors de l\'ajout du congé', error);
         alert('Erreur lors de l\'ajout du congé');
+        console.log(user);
       }
     );
   }
-
   
   editConge(event: Conge, content: any): void {
     this.isEditing = true;

@@ -8,17 +8,16 @@ import { CongeFormComponent } from './conge-form/conge-form.component'; // Impor
 import { CalendarComponent } from './calendar/calendar.component'; // Import CalendarComponent
 import { LoginnComponent } from './loginn/loginn.component';
 import { AuthGuard } from './auth.guard';
-import { Role } from './role.enum';
+import { Role } from './enums/role.enum';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },  // Home route
+  { path: '',  redirectTo : "login" , pathMatch:"prefix" },  // Home route
   { path: 'register', component: RegisterComponent }, // Registration route
-  { path: 'login', component: LoginComponent }, // Login route
-  { path: 'conges-list', component: CongesListComponent, canActivate:[AuthGuard],data:{roles:[Role.Admin]} }, // List of congés
+  { path: 'conges-list', component: CongesListComponent, canActivate:[AuthGuard],data:{roles:[Role.RH]} }, // List of congés
   { path: 'conge-form', component: CongeFormComponent }, // Form to add a new congé
   { path: 'conge-form/:id', component: CongeFormComponent }, // Form to edit an existing congé by id
-  { path: 'ca', component: CalendarComponent , canActivate:[AuthGuard],data:{roles:[Role.User]}}, // Route to CalendarComponent
-  { path: 'loginn', component: LoginnComponent }, // Login route
+  { path: 'calendar', component: CalendarComponent}, // Route to CalendarComponent
+  { path: 'login', component: LoginnComponent }, // Login route
 
   { path: '**', redirectTo: '' } // Fallback route for undefined paths
 ];

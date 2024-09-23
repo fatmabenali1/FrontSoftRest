@@ -1,10 +1,10 @@
-// src/app/conge-form/conge-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CongeService } from '../services/conge.service';
 import { Conge } from '../models/conge';
 import { Status } from '../status';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-conge-form',
@@ -19,11 +19,12 @@ export class CongeFormComponent implements OnInit {
     private fb: FormBuilder,
     private congeService: CongeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authentificationservice: AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    this.congeId = this.route.snapshot.paramMap.get('id');  // Get the id from the route if it's for edit
+    this.congeId = this.route.snapshot.paramMap.get('id') ?? '';  // Get the id from the route if it's for edit
     this.initForm();
     
     // If editing, load the existing conge details
@@ -63,8 +64,9 @@ export class CongeFormComponent implements OnInit {
         error: (err) => console.error('Error updating conge:', err)
       });
     } else {
+      const idUser = this.authentificationservice.userValue;
       // Create new conge
-      this.congeService.addConge(congeData).subscribe({
+      this.congeService.addConge(congeData, idUser?.toString() ?? '').subscribe({
         next: () => this.router.navigate(['/conges-list']),
         error: (err) => console.error('Error adding conge:', err)
       });

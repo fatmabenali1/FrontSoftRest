@@ -1,38 +1,58 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, catchError, map, noop, throwError } from 'rxjs';
 import { Conge } from '../models/conge';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CongeService {
-
   private apiUrl = 'http://localhost:8085/conges'; 
+
   constructor(private http: HttpClient) {}
 
   // Récupérer tous les congés
   getConges(): Observable<Conge[]> {
-    return this.http.get<Conge[]>(this.apiUrl);
+    return this.http.get<Conge[]>(this.apiUrl).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // Récupérer un congé par ID
   getConge(idC: string): Observable<Conge> {
-    return this.http.get<Conge>(`${this.apiUrl}/${idC}`);
+    return this.http.get<Conge>(`${this.apiUrl}/${idC}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // Ajouter un nouveau congé
-  addConge(conge: Conge): Observable<Conge> {
-    return this.http.post<Conge>(this.apiUrl, conge);  // Utilisez this.apiUrl ici
+  addConge(conge: Conge , iduser: String): Observable<Conge | null> {
+    const url = `${this.apiUrl}/add/${iduser}`;
+    return this.http.post<Conge | null>(url, conge,{observe:"response"}).pipe(
+      map(result => result.body),
+      catchError(this.handleError)
+
+    );
   }
 
   // Mettre à jour un congé existant
   updateConge(idC: string, conge: Conge): Observable<Conge> {
-    return this.http.put<Conge>(`${this.apiUrl}/${idC}`, conge);
+    return this.http.put<Conge>(`${this.apiUrl}/${idC}`, conge).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // Supprimer un congé
   deleteConge(idC: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${idC}`);
+    return this.http.delete<any>(`${this.apiUrl}/${idC}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Gestion des erreurs
+  private handleError(error: any) {
+    console.error('Une erreur est survenue', error);
+    return throwError(() => new Error('Une erreur est survenue. Veuillez réessayer.'));
   }
 }

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../authentication.service';
-import { Role } from '../role.enum';
+import { Role } from '../enums/role.enum';
 
 @Component({ templateUrl: 'loginn.component.html' })
 export class LoginnComponent implements OnInit {
@@ -21,7 +21,7 @@ export class LoginnComponent implements OnInit {
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.userValue) {
-            this.router.navigate(['/ca']);
+            this.router.navigate(['/calendar']);
         }
     }
 
@@ -49,11 +49,11 @@ export class LoginnComponent implements OnInit {
             .subscribe({
                 next: (user) => {
                     let returnUrl
-                    if (user.role===Role.Admin) {
+                    if (user.role===Role.RH) {
                          returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/conges-list';
 
                     }else{
-                        returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/ca';
+                        returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/calendar';
 
                     }
                     // get return url from query parameters or default to home page

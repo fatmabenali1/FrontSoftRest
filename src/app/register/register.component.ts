@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Utilisateur } from '../models/utilisateur.model';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { AuthenticationService } from '../authentication.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -14,7 +14,8 @@ export class RegisterComponent {
   registerErrorMessage: string | null = null;
   successMessage: string | null = null; // For successful registration messages
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthenticationService) { }
 
   onRegister(): void {
     if (this.isFormValid()) { // Validate the form before submission
