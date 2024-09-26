@@ -8,7 +8,7 @@ export class Conge {
     status!: Status; 
     dateValidation!: Date;
     title?: string; 
-    fullName?:string;
+    username?:string;
     countVacation?:number;
   }
   

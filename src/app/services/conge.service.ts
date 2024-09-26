@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, map, noop, throwError } from 'rxjs';
 import { Conge } from '../models/conge';
 import { response } from 'express';
-
+import { Role } from '../enums/role.enum';  // Assurez-vous que l'importation est correcte
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +25,9 @@ export class CongeService {
       catchError(this.handleError)
     );
   }
-
+  getCongesByStatus(status: string): Observable<Conge[]> {
+    return this.http.get<Conge[]>(`${this.apiUrl}/${status}`);
+  }
   // Ajouter un nouveau congé
   addConge(conge: Conge , iduser: String): Observable<Conge | null> {
     const url = `${this.apiUrl}/add/${iduser}`;
@@ -35,7 +37,10 @@ export class CongeService {
 
     );
   }
-
+  searchConges(searchTerm: string): Observable<Conge[]> {
+    const url = `${this.apiUrl}/search?term=${encodeURIComponent(searchTerm)}`;
+    return this.http.get<Conge[]>(url);
+  }
   // Mettre à jour un congé existant
   updateConge(idC: string, conge: Conge): Observable<Conge> {
     return this.http.put<Conge>(`${this.apiUrl}/${idC}`, conge).pipe(
@@ -49,7 +54,11 @@ export class CongeService {
       catchError(this.handleError)
     );
   }
+  getCongesByRole(role: Role): Observable<Conge[]> {
+    return this.http.get<Conge[]>(`${this.apiUrl}/conges?role=${role}`);
+}
 
+  
   // Gestion des erreurs
   private handleError(error: any) {
     console.error('Une erreur est survenue', error);

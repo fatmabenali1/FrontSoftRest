@@ -1,32 +1,165 @@
-<div class="col-md-6 offset-md-3 mt-5">
-    <div class="alert alert-info">
-        <strong>Normal User</strong> - U: user P: user<br />
-        <strong>Administrator</strong> - U: admin P: admin
-    </div>
-    <div class="card">
-        <h4 class="card-header">Angular 14 Role Based Auth Example</h4>
-        <div class="card-body">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && loginForm.get('username') }" />
-                    <div *ngIf="submitted && loginForm.get('username')?.errors" class="invalid-feedback">
-                        <div *ngIf="loginForm.get('username')?.errors">Username is required</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Login Form</title>
+    <style>
+        /* Fontawesome */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            align-items: stretch;
+        }
+
+        .left-section {
+            background: url('https://img.freepik.com/premium-vector/man-freelancer-sits-table-cafe-working-laptop-remote-worker-drinking-beverage-coworking-space-workplace-cafeteria-restaurant_575670-1291.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1702771200&semt=ais') no-repeat center center;
+            display: none;
+        }
+
+        .right-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(10, 75, 90, 0.5);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-form h2 {
+            color: #ffb144;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .login-title i {
+            margin-right: 10px;
+            color: #027186;
+        }
+
+        .form-control {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .form-control i {
+            position: absolute;
+            left: 15px;
+            top: 14px;
+            color: #32495e;
+        }
+
+        .form-control input {
+            width: 100%;
+            max-width: 95%;
+            padding: 12px 0 12px 37px;
+            border: 2px solid #00569f1c;
+            background-color: rgb(232, 232, 232);
+            color: rgb(50, 73, 94);
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out 0s;
+        }
+
+        .form-control input:focus {
+            outline: none;
+            border: 2px solid #ffd8a1;
+        }
+
+        .form-control input:invalid:not(:focus):not(:placeholder-shown) {
+            border: 2px solid #ff3860;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background-color: #ffaa33;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button:hover {
+            background-color: #405d7d;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link a {
+            color: #027186;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media screen and (min-width: 768px) {
+            .left-section {
+                display: block;
+                /* Show the left section on larger screens */
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section"></div>
+        <div class="right-section">
+            <div class="login-container">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+                    <h2 class="login-title"><i class="fas fa-user-circle"></i> Login</h2>
+                    <div class="form-control">
+                        <i class="fas fa-user icon"></i>
+                        <input type="text" formControlName="username" placeholder="Username" required
+                               [ngClass]="{ 'is-invalid': submitted && loginForm.get('username')?.errors }" />
+                        <div *ngIf="submitted && loginForm.get('username')?.errors" class="invalid-feedback">
+                            <div *ngIf="loginForm.get('username')?.errors">Username is required</div>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && loginForm.get('password')?.errors}" />
-                    <div *ngIf="submitted && loginForm.get('password')?.errors" class="invalid-feedback">
-                        <div *ngIf="loginForm.get('password')?.errors">Password is required</div>
+                    <div class="form-control">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" formControlName="password" placeholder="Password" required
+                               [ngClass]="{ 'is-invalid': submitted && loginForm.get('password')?.errors }" />
+                        <div *ngIf="submitted && loginForm.get('password')?.errors" class="invalid-feedback">
+                            <div *ngIf="loginForm.get('password')?.errors">Password is required</div>
+                        </div>
                     </div>
-                </div>
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-                    Login
-                </button>
-                <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error | json}}</div>
-            </form>
+                    <button type="submit">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                        Login
+                    </button>
+                    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error | json }}</div>
+                    <div class="register-link">
+                        <p>Vous n'avez pas de compte ? <a href="/register">S'inscrire</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</body>
+</html>

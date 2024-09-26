@@ -1,0 +1,5 @@
+.btn btn-link nav-item nav-link{
+    color: #c82333;               /* Couleur légèrement plus foncée lors du hover */
+    text-decoration: underline;
+}
+  

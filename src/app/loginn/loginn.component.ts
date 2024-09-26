@@ -48,21 +48,20 @@ export class LoginnComponent implements OnInit {
             .pipe(first())
             .subscribe({
                 next: (user) => {
-                    let returnUrl
-                    if (user.role===Role.RH) {
-                         returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/conges-list';
-
-                    }else{
+                    let returnUrl;
+                    if (user.role === Role.RH) {
+                        returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/conges-list';
+                    } else if (user.role === Role.TECHLEAD) {
+                        returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/conge-form';
+                    } else {
                         returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/calendar';
-
                     }
-                    // get return url from query parameters or default to home page
-                    this.router.navigateByUrl(returnUrl);
+                    this.router.navigate([returnUrl]);
                 },
-                error: error => {
+                error: (error) => {
                     this.error = error;
                     this.loading = false;
                 }
             });
-    }
+                }
 }

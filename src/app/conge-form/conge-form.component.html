@@ -1,0 +1,64 @@
+<div class="container">
+    <h2 *ngIf="isTechlead">Formulaire de Congé</h2>
+    <h2 *ngIf="!isTechlead">Demandes de Congé des Collaborateurs</h2>
+  
+    <form [formGroup]="congeForm" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="dateDebut">Date de Début</label>
+        <input type="date" id="dateDebut" formControlName="dateDebut" class="form-control" required />
+        <div *ngIf="congeForm.get('dateDebut')?.invalid && (congeForm.get('dateDebut')?.touched || congeForm.get('dateDebut')?.dirty)">
+          <small class="text-danger">La date de début est requise.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dateFin">Date de Fin</label>
+        <input type="date" id="dateFin" formControlName="dateFin" class="form-control" required />
+        <div *ngIf="congeForm.get('dateFin')?.invalid && (congeForm.get('dateFin')?.touched || congeForm.get('dateFin')?.dirty)">
+          <small class="text-danger">La date de fin est requise.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="reason">Raison</label>
+        <textarea id="reason" formControlName="reason" class="form-control" required></textarea>
+        <div *ngIf="congeForm.get('reason')?.invalid && (congeForm.get('reason')?.touched || congeForm.get('reason')?.dirty)">
+          <small class="text-danger">La raison est requise.</small>
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="congeForm.invalid">Enregistrer</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button>
+    </form>
+  
+    <hr>
+  
+    <h3>Liste des Congés des Collaborateurs</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date de Début</th>
+          <th>Date de Fin</th>
+          <th>Raison</th>
+          <th>Date de Validation</th>
+          <th> Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let conge of congesCollaborateurs">
+          <td>{{ conge.dateDebut | date: 'shortDate' }}</td>
+          <td>{{ conge.dateFin | date: 'shortDate' }}</td>
+          <td>{{ conge.reason }}</td>
+          <td>{{ conge.dateValidation ? (conge.dateValidation | date: 'shortDate') : 'Non validé' }}</td>
+          <td class="{{conge.status}}">  {{ conge.status }}  </td>
+        </tr>
+        <tr *ngIf="congesCollaborateurs.length === 0">
+          <td>
+           
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Bouton pour rediriger vers la page du calendrier -->
+  </div>
+  

@@ -34,14 +34,14 @@ body {
   }
   
   .calendar-controls button {
-    background-color: #0078d4;
+    background-color: #527794;
     color: #ffffff;
     border: none;
     cursor: pointer;
   }
   
   .calendar-controls button:hover {
-    background-color: #005a9e;
+    background-color: #527794;
   }
   
   .calendar-controls select {
@@ -62,11 +62,11 @@ body {
   
   .calendar-day-name {
     text-align: center;
-    background-color: #0078d4;
+    background-color: #527794;
     color: #ffffff;
     padding: 10px;
     font-weight: bold;
-    border: 1px solid #0078d4;
+    border: 1px solid #527794;
   }
   
   .calendar-body {
@@ -96,7 +96,7 @@ body {
   }
   
   .event {
-    background-color: #0078d4;
+    background-color: #527794;
     color: #ffffff;
     padding: 5px;
     border-radius: 4px;
@@ -106,18 +106,18 @@ body {
   .event button {
     margin-left: 5px;
     background-color: #ffffff;
-    color: #0078d4;
-    border: 1px solid #0078d4;
+    color: #527794;
+    border: 1px solid #527794;
   }
   
   .event button:hover {
     background-color: #e0e0e0;
-    color: #005a9e;
+    color: #527794;
   }
   
   /* Styles pour le modal */
   .modal-header {
-    background-color: #0078d4;
+    background-color: #a6bdcf;
     color: #ffffff;
   }
   
@@ -130,21 +130,21 @@ body {
   }
   
   .btn-secondary {
-    background-color: #0078d4;
+    background-color: #527794;
     color: #ffffff;
   }
   
   .btn-secondary:hover {
-    background-color: #005a9e;
+    background-color: #527794;
   }
   
   .btn-primary {
-    background-color: #0078d4;
+    background-color: #527794;
     color: #ffffff;
   }
   
   .btn-primary:hover {
-    background-color: #005a9e;
+    background-color: #527794;
   }
   
   .btn-light {
@@ -194,7 +194,7 @@ body {
   }
   
   .selected-day {
-    background-color: #007bff;
+    background-color: #527794;
     color: white;
   }
   
@@ -218,3 +218,18 @@ body {
 .VALIDATED{
   color:green;
 }
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+}
+

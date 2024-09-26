@@ -1,177 +1,161 @@
-/* Style général de la section */
-.vh-100 {
-    min-height: 100vh;
-    background-color: #f8f9fa; /* Fond de la section */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #ffb144, #ffb144); /* Dégradé d'orange */
+
 }
 
-/* Style de la carte */
-.card {
-    border-radius: 25px;
+.container {
+    display: flex;
+    height: 100vh;
+    align-items: stretch;
+    justify-content: space-between;
 }
 
-/* Titre du formulaire */
-h1.fw-bold {
-    font-size: 2rem;
-    font-weight: 700;
+.right-section {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.left-section {
+    background: url('https://img.freepik.com/premium-vector/man-freelancer-sits-table-cafe-working-laptop-remote-worker-drinking-beverage-coworking-space-workplace-cafeteria-restaurant_575670-1291.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1702771200&semt=ais') no-repeat center center;
+    background-size: cover;
+    width: 50%; /* Set the width to 50% so that it takes half the screen */
+    display: none;
+}
+
+.register-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(10, 75, 90, 0.5);
+    width: 100%;
+    max-width: 450px;
+}
+.register-form h2 {
+    color: #ffb144;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.register-title i {
+    margin-right: 10px;
+    color: #027186;
+}
+
+.form-control {
+    position: relative;
     margin-bottom: 30px;
 }
 
-/* Style des icônes */
-.form-outline i {
-    color: #007bff; /* Couleur bleue des icônes */
-    font-size: 1.5rem; /* Taille des icônes */
-    margin-right: 10px; /* Espacement entre l'icône et le champ */
+.form-control i {
+    position: absolute;
+    left: 15px;
+    top: 14px;
+    color: #32495e;
 }
 
-/* Style des champs de saisie */
-.form-control {
-    border-radius: 10px;
-    border: 1px solid #ced4da;
+.form-control input {
+    width: 100%;
+    max-width: 95%;
+    padding: 12px 0 12px 37px;
+    border: 2px solid #00569f1c;
+    background-color: rgb(232, 232, 232);
+    color: rgb(50, 73, 94);
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.form-control input:focus {
+    outline: none;
+    border: 2px solid #ffd8a1;
+}
+
+.form-control input:invalid:not(:focus):not(:placeholder-shown) {
+    border: 2px solid #ff3860;
+}
+
+button {
+    width: 100%;
     padding: 15px;
-    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #ffaa33;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Espacement entre les champs de saisie et les icônes */
-.d-flex.flex-row.align-items-center.mb-4 {
-    margin-bottom: 20px;
+button:hover {
+    background-color: #405d7d;
 }
 
-/* Style du bouton d'inscription */
-.btn-primary {
-    padding: 10px 30px;
-    font-size: 1.25rem;
-    border-radius: 30px;
+.register-link {
+    text-align: center;
+    margin-top: 15px;
 }
 
-/* Ajustement de l'image à droite */
-.img-fluid {
-    max-width: 100%;
-    height: auto;
-    border-radius: 25px;
+.register-link a {
+    color: #027186;
+    text-decoration: none;
 }
 
-/* Style pour le conteneur de formulaire */
-.register-container {
-    background-color: #ffffff; /* Fond blanc pour le conteneur */
-    border-radius: 8px; /* Coins arrondis pour le conteneur */
-    padding: 2rem; /* Espacement à l'intérieur du conteneur */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la profondeur */
+/* Responsive */
+@media screen and (min-width: 768px) {
+    .right-section {
+        display: block;
+        flex: 1;
+    }
+    .left-section {
+        width: 50%;
+    }
+}
+.form-check-input {
+    width: 20px;              /* Taille de la case à cocher */
+    height: 20px;             /* Hauteur de la case à cocher */
+    cursor: pointer;          /* Change le curseur en "pointer" au survol */
+    border: 2px solid #027186; /* Couleur de bordure */
+    border-radius: 5px;       /* Arrondir les coins de la case à cocher */
+    background-color: #fff;   /* Couleur de fond par défaut */
+    transition: all 0.3s ease; /* Animation douce pour le changement d'état */
 }
 
-/* Styling for the form title */
-.register-container h1 {
-    color: #333; /* Dark gray for the heading */
-    margin-bottom: 1.5rem; /* Space below the heading */
+.form-check-input:checked {
+    background-color: #ffaa33; /* Couleur de fond lorsque la case est cochée */
+    border-color: #ffaa33;     /* Couleur de la bordure lorsqu'elle est cochée */
 }
 
-/* Form group styling */
-.form-group {
-    margin-bottom: 1.5rem; /* Space between form groups */
+.form-check-input:focus {
+    outline: none;            /* Supprime la bordure par défaut lors du focus */
+    box-shadow: 0 0 5px rgba(0, 120, 215, 0.5); /* Ajoute un léger effet de focus */
 }
 
-/* Styling for form labels */
-.form-label {
-    font-weight: bold; /* Bold text for labels */
-    color: #555; /* Slightly lighter gray for labels */
+.me-2 {
+    margin-right: 10px;       /* Espace entre la case à cocher et le texte */
+}
+.remember-me {
+    font-size: 1rem; /* Taille de police confortable */
 }
 
-/* Styling for select fields */
-.form-select {
-    border: 1px solid #dcdcdc; /* Light gray border */
-    border-radius: 4px; /* Rounded corners for select field */
-    padding: 0.75rem; /* Padding inside select field */
-    font-size: 1rem; /* Font size for select text */
+.form-check-input {
+    width: 20px; /* Taille personnalisée pour la case à cocher */
+    height: 20px; /* Taille personnalisée pour la case à cocher */
 }
 
-/* Styling for submit button */
-.btn-primary {
-    background-color: #007bff; /* Bright blue for button */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners for button */
-    color: #fff; /* White text color */
-    padding: 0.75rem; /* Padding inside button */
-    font-size: 1rem; /* Font size for button text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
+.form-check-label {
+    margin-bottom: 0; /* Supprime l'espace en bas du label */
 }
 
-.btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+.mb-4 {
+    margin-bottom: 1.5rem; /* Augmente l'espace en bas si nécessaire */
 }
 
-/* Styling for success and error messages */
-.alert {
-    margin-top: 1rem; /* Space above messages */
-    padding: 1rem; /* Padding inside messages */
-    border-radius: 4px; /* Rounded corners for messages */
-    font-size: 1rem; /* Font size for message text */
-}
-
-.alert-success {
-    background-color: #d4edda; /* Light green background */
-    color: #155724; /* Dark green text color */
-}
-
-.alert-danger {
-    background-color: #f8d7da; /* Light red background */
-    color: #721c24; /* Dark red text color */
-}
-
-/* Custom styles */
-.vh-100 {
-    height: 100vh;
-    background-color: #eee;
-}
-
-.card {
-    border-radius: 15px;
-}
-
-.card-body img {
-    max-width: 100%;
-    height: auto;
-}
-
-.contact-form input, .contact-form textarea {
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.mx-1.mx-md-4 {
-    margin: 0 1rem;
-}
-
-.d-flex.justify-content-center.mx-4.mb-3.mb-lg-4 {
-    margin-top: 20px;
-}
-/* Updated image styling */
-.img-fluid.rounded-pill {
-    border-radius: 50px; /* Ensures the image has pill-shaped rounded corners */
-}
-
-/* General styles for vh-100 background */
-.bg-light {
-    background-color: #f8f9fa;
-}
-
-/* Adjustments for the card */
-.card {
-    border-radius: 25px;
-}
-
-/* Style for form elements */
-.form-control {
-    border-radius: 10px;
-    border: 1px solid #ced4da;
-    padding: 15px;
-    font-size: 1rem;
-}
-
-/* Style for the submit button */
-.btn-primary {
-    padding: 10px 30px;
-    font-size: 1.25rem;
-    border-radius: 30px;
-}

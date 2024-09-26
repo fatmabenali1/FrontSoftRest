@@ -8,8 +8,7 @@ import { Utilisateur } from '../models/utilisateur.model';
 })
 export class AuthService {
   private registerUrl = 'http://localhost:8085/inscription'; // URL de l'API pour l'inscription
-  private loginUrl = 'http://localhost:8085/connexion'; // URL de l'API pour la connexion
-
+  private loginUrl = 'http://localhost:8085/connexion'; 
   constructor(private http: HttpClient) { }
 
   register(user: Utilisateur): Observable<any> {
