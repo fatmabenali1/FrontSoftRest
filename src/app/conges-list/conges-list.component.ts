@@ -14,13 +14,52 @@ export class CongesListComponent implements OnInit {
   dateDebut: Date | undefined; // Changez ici
   endDate: Date | undefined; // Changez ici
   searchStatus: string = ''; // Ajout de la variable pour le statut de recherche
-
+  message : String = '';
   constructor(private congeService: CongeService) {}
 
   ngOnInit(): void {
     this.loadConges();  
   }
 
+  calculateDays(dateDebut: Date, dateFin: Date): number {
+    const startDate = new Date(dateDebut);
+    const endDate = new Date(dateFin);
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  // Nombre de jours entre les deux dates
+    return diffDays;
+  }
+  validateVacations(conge: Conge): void {
+    const daysTaken = this.calculateDays(conge.dateDebut, conge.dateFin);
+
+    // Vérifiez si le solde des congés est suffisant
+    if (conge.countVacation >= daysTaken) {
+        const newSolde = conge.countVacation - daysTaken; // Calculez le nouveau solde
+        conge.countVacation = newSolde;  // Mettre à jour le solde localement
+        conge.status = Status.VALIDATED;  // Mettre à jour le statut
+
+        // Mettre à jour le congé dans le backend
+        this.congeService.updateConge(conge.idC, conge).subscribe({
+            next: (data: Conge) => {
+                console.log('Congé validé:', data);
+
+                // Enregistrer le nouveau solde
+                this.congeService.updateSoldeConges((conge.idC), newSolde).subscribe({
+                    next: (updatedConge) => {
+                        console.log('Solde mis à jour:', updatedConge);
+                    },
+                    error: (err) => {
+                        console.error('Erreur lors de la mise à jour du solde:', err);
+                    }
+                });
+            },
+            error: (err: any) => {
+                console.error('Erreur lors de la validation du congé:', err);
+            }
+        });
+    } else {
+        console.error('Le solde des congés est insuffisant.');
+    }
+}
   loadConges(): void {
     this.congeService.getConges().subscribe({
       next: (data: Conge[]) => {

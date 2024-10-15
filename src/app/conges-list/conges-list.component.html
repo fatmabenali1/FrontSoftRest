@@ -17,7 +17,7 @@
         <th>Date de Fin</th>
         <th>Raison</th>
         <th>Date de dépôt</th>
-        <th>Solde de congés</th>
+        <th>Solde de congés</th> <!-- Ajout de l'en-tête pour le solde de congés -->
         <th>Statut</th>
         <th>Action</th>
       </tr>
@@ -29,7 +29,7 @@
         <td>{{ conge.dateFin | date }}</td>
         <td>{{ conge.reason }}</td>
         <td>{{ conge.dateValidation | date }}</td>
-        <td>{{ conge.countVacation }}</td>
+        <td>{{ conge.countVacation }}</td> <!-- Ajout du solde de congés -->
         <td class="{{conge.status}}">
           {{ conge.status }}
         </td>
@@ -37,6 +37,7 @@
           <div class="d-flex justify-content-between">
             <button name="refuse" type="button" (click)="refuseVacation(conge)" class="btn btn-light mr-2">Refuser</button>
             <button name="validate" type="button" (click)="validateVacation(conge)" class="btn btn-secondary">Valider</button>
+            <button name="update" type="button" (click)="validateVacations(conge)" class="btn btn-primary">Mettre à jour le solde</button>
           </div>
         </td>
       </tr>

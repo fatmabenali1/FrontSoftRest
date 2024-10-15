@@ -22,6 +22,7 @@ export class CalendarComponent implements OnInit {
   isEditing: boolean = false;
   eventIdToEdit: string | null = null;
  nom: String='';
+ countVacation : number =30;
   constructor(private modalService: NgbModal, private congeService: CongeService ,
      private authenticationService : AuthenticationService  ) {}
  
@@ -143,7 +144,8 @@ export class CalendarComponent implements OnInit {
       reason: this.reason,
       status: Status.PENDING,
       dateValidation: new Date(),
-      title: this.eventTitle 
+      title: this.eventTitle ,
+      countVacation:this.countVacation
     };
 
     this.congeService.updateConge(this.eventIdToEdit!, updatedConge).subscribe(

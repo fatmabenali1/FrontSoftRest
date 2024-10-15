@@ -9,7 +9,7 @@ export class Conge {
     status!: Status; 
     dateValidation!: Date;
     title?: string; 
-    countVacation?:30;
+    countVacation: number = 30; 
     nom?:String ;
     Utilisateur?: Utilisateur;
     constructor(utilisateur?: Utilisateur) {

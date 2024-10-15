@@ -1,108 +1,82 @@
-.PENDING{
-    color:orange;
-}
-.REFUSED{
-    color:red;
-}
-.VALIDATED{
-    color :green;
-}
-/* Conteneur global */
-.container {
-    margin: 20px auto;
-    max-width: 1000px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Statuts des congés */
+.PENDING {
+    color: orange; /* Orange pour les congés en attente */
 }
 
-/* Titre de la liste des congés */
-.container h2 {
-    text-align: center;
-    color: #00569f;
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: 700;
+.REFUSED {
+    color: red; /* Rouge pour les congés refusés */
 }
 
-/* Tableau */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-}
-
-.table thead {
-    background-color: #00569f;
-    color: white;
-}
-
-.table th, 
-.table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    vertical-align: middle;
-}
-
-.table th {
-    font-weight: 600;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Statut des congés */
-td.pending {
-    color: #f39c12;
-    font-weight: bold;
-}
-
-td.approved {
-    color: #28a745;
-    font-weight: bold;
-}
-
-td.rejected {
-    color: #e74c3c;
-    font-weight: bold;
+.VALIDATED {
+    color: green; /* Vert pour les congés validés */
 }
 
 /* Boutons d'action */
 .btn {
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 5px;
+    padding: 8px 14px; /* Ajuste la taille du padding pour un meilleur clic */
+    font-size: 14px;   /* Augmente la taille de la police pour plus de lisibilité */
+    border-radius: 5px; /* Légèrement arrondi pour un effet plus compact */
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-light {
-    background-color: #f39c12;
-    color: white;
+    transition: all 0.3s ease;
     border: none;
+    text-align: center;
+    min-width: 90px;   /* Largeur minimale augmentée pour une meilleure accessibilité */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère */
 }
 
+/* Bouton refuser */
+.btn-light {
+    background-color: #e74c3c; /* Rouge */
+    color: white;
+}
 
+.btn-light:hover {
+    background-color: #c0392b; /* Rouge foncé */
+    transform: scale(1.05); /* Légère augmentation de taille au survol */
+}
+
+/* Bouton valider */
+.btn-secondary {
+    background-color: #27ae60; /* Vert */
+    color: white;
+}
 
 .btn-secondary:hover {
-    background-color: #218838;
+    background-color: #218838; /* Vert foncé */
+    transform: scale(1.05); /* Légère augmentation de taille au survol */
 }
 
-/* Styles pour rendre le tableau plus réactif */
+/* Bouton mettre à jour le solde */
+.btn-primary {
+    background-color: #3498db; /* Bleu */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9; /* Bleu foncé */
+    transform: scale(1.05); /* Légère augmentation de taille au survol */
+}
+
+/* Alignement des boutons */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Ajuste l'espace entre les boutons */
+}
+
+/* Responsive adjustments */
 @media screen and (max-width: 768px) {
     .container {
         padding: 10px;
     }
 
     .table th, .table td {
-        padding: 10px;
+        padding: 12px; /* Ajuste le padding pour une meilleure lisibilité */
     }
 
     .btn {
-        font-size: 12px;
-        padding: 6px 10px;
+        font-size: 12px; /* Ajuste la taille de la police pour les petits écrans */
+        padding: 6px 12px; /* Ajuste le padding pour les petits écrans */
+        min-width: 80px;   /* Largeur minimale ajustée pour les petits écrans */
     }
 }

@@ -11,13 +11,15 @@ export class CongeService {
   private apiUrl = 'http://localhost:8085/conges'; 
 
   constructor(private http: HttpClient) {}
-
+ 
   getConges(): Observable<Conge[]> {
     return this.http.get<Conge[]>(this.apiUrl).pipe(
       catchError(this.handleError)
     );
   }
-
+  updateSoldeConges(congeId: String, newSolde: number): Observable<Conge> {
+    return this.http.put<Conge>(`http://localhost:8087/conges/${congeId}`, { countVacation: newSolde });
+  }
   // Récupérer un congé par ID
   getConge(idC: string): Observable<Conge> {
     return this.http.get<Conge>(`${this.apiUrl}/${idC}`).pipe(
