@@ -145,7 +145,8 @@ export class CalendarComponent implements OnInit {
       status: Status.PENDING,
       dateValidation: new Date(),
       title: this.eventTitle ,
-      countVacation:this.countVacation
+      countVacation:this.countVacation,
+      Utilisateur: JSON.parse(localStorage.getItem('user') || '{}')
     };
 
     this.congeService.updateConge(this.eventIdToEdit!, updatedConge).subscribe(

@@ -14,11 +14,11 @@ export class CongesListComponent implements OnInit {
   dateDebut: Date | undefined; // Changez ici
   endDate: Date | undefined; // Changez ici
   searchStatus: string = ''; // Ajout de la variable pour le statut de recherche
-  message : String = '';
-  constructor(private congeService: CongeService) {}
+  message: String = '';
+  constructor(private congeService: CongeService) { }
 
   ngOnInit(): void {
-    this.loadConges();  
+    this.loadConges();
   }
 
   calculateDays(dateDebut: Date, dateFin: Date): number {
@@ -33,33 +33,36 @@ export class CongesListComponent implements OnInit {
 
     // Vérifiez si le solde des congés est suffisant
     if (conge.countVacation >= daysTaken) {
-        const newSolde = conge.countVacation - daysTaken; // Calculez le nouveau solde
-        conge.countVacation = newSolde;  // Mettre à jour le solde localement
+      const newSolde = conge.countVacation - daysTaken; // Calculez le nouveau solde
+
+      if (conge.Utilisateur) {
+        conge.Utilisateur!.countVacation = newSolde;  // Mettre à jour le solde localement
         conge.status = Status.VALIDATED;  // Mettre à jour le statut
+      }
+      // Mettre à jour le congé dans le backend
+      this.congeService.updateConge(conge.idC, conge).subscribe({
+        next: (data: Conge) => {
+          console.log(data.countVacation, "+++++++++++++++")
+          //console.log('Congé validé:', data);
 
-        // Mettre à jour le congé dans le backend
-        this.congeService.updateConge(conge.idC, conge).subscribe({
-            next: (data: Conge) => {
-                console.log('Congé validé:', data);
-
-                // Enregistrer le nouveau solde
-                this.congeService.updateSoldeConges((conge.idC), newSolde).subscribe({
-                    next: (updatedConge) => {
-                        console.log('Solde mis à jour:', updatedConge);
-                    },
-                    error: (err) => {
-                        console.error('Erreur lors de la mise à jour du solde:', err);
-                    }
-                });
-            },
-            error: (err: any) => {
-                console.error('Erreur lors de la validation du congé:', err);
-            }
-        });
+          // // Enregistrer le nouveau solde
+          // this.congeService.updateSoldeConges((conge.idC), newSolde).subscribe({
+          //   next: (updatedConge) => {
+          //     console.log('Solde mis à jour:', updatedConge);
+          //   },
+          //   error: (err) => {
+          //     console.error('Erreur lors de la mise à jour du solde:', err);
+          //   }
+          // });
+        },
+        error: (err: any) => {
+          console.error('Erreur lors de la validation du congé:', err);
+        }
+      });
     } else {
-        console.error('Le solde des congés est insuffisant.');
+      console.error('Le solde des congés est insuffisant.');
     }
-}
+  }
   loadConges(): void {
     this.congeService.getConges().subscribe({
       next: (data: Conge[]) => {
@@ -75,12 +78,12 @@ export class CongesListComponent implements OnInit {
 
   onSearch(): void {
     this.congeService.searchConges(
-      this.dateDebut, 
+      this.dateDebut,
       this.endDate
     ).subscribe({
       next: (data: Conge[]) => {
         // Filtrez les congés par statut si searchStatus est renseigné
-        this.conges = data.filter(conge => 
+        this.conges = data.filter(conge =>
           conge.status.toLowerCase().includes(this.searchStatus.toLowerCase())
         );
       },

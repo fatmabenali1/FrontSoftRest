@@ -9,9 +9,9 @@ export class Conge {
     status!: Status; 
     dateValidation!: Date;
     title?: string; 
-    countVacation: number = 30; 
+    countVacation!: number; 
     nom?:String ;
-    Utilisateur?: Utilisateur;
+    Utilisateur!: Utilisateur;
     constructor(utilisateur?: Utilisateur) {
       if (utilisateur) {
           this.nom = utilisateur.username; 

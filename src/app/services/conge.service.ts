@@ -49,12 +49,17 @@ export class CongeService {
 
     return this.http.get<Conge[]>(`${this.apiUrl}/search`, { params });
   }
+
+
+
   // Mettre à jour un congé existant
   updateConge(idC: string, conge: Conge): Observable<Conge> {
     return this.http.put<Conge>(`${this.apiUrl}/${idC}`, conge).pipe(
       catchError(this.handleError)
     );
   }
+
+  
 
   // Supprimer un congé
   deleteConge(idC: string): Observable<any> {

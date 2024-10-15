@@ -29,15 +29,15 @@
         <td>{{ conge.dateFin | date }}</td>
         <td>{{ conge.reason }}</td>
         <td>{{ conge.dateValidation | date }}</td>
-        <td>{{ conge.countVacation }}</td> <!-- Ajout du solde de congés -->
+        <td>{{ conge.Utilisateur?.countVacation }}</td> <!-- Ajout du solde de congés -->
         <td class="{{conge.status}}">
           {{ conge.status }}
         </td>
         <td>
           <div class="d-flex justify-content-between">
             <button name="refuse" type="button" (click)="refuseVacation(conge)" class="btn btn-light mr-2">Refuser</button>
-            <button name="validate" type="button" (click)="validateVacation(conge)" class="btn btn-secondary">Valider</button>
-            <button name="update" type="button" (click)="validateVacations(conge)" class="btn btn-primary">Mettre à jour le solde</button>
+            <button name="validate" type="button" (click)="validateVacations(conge)" class="btn btn-secondary">Valider</button>
+            <!-- <button name="update" type="button" (click)="validateVacations(conge)" class="btn btn-primary">Mettre à jour le solde</button> -->
           </div>
         </td>
       </tr>
