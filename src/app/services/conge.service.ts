@@ -12,7 +12,6 @@ export class CongeService {
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer tous les congés
   getConges(): Observable<Conge[]> {
     return this.http.get<Conge[]>(this.apiUrl).pipe(
       catchError(this.handleError)
@@ -37,9 +36,16 @@ export class CongeService {
 
     );
   }
-  searchConges(searchTerm: string): Observable<Conge[]> {
-    const url = `${this.apiUrl}/search?term=${encodeURIComponent(searchTerm)}`;
-    return this.http.get<Conge[]>(url);
+  validateConge(congeId: string): Observable<Conge> {
+    return this.http.post<Conge>(`${this.apiUrl}/validate/${congeId}`, {});
+  }
+  searchConges( dateDebut?: Date, endDate?: Date): Observable<Conge[]> {
+    const params: any = {};
+    
+    if (dateDebut) params.dateDebut = dateDebut;
+    if (endDate) params.endDate = endDate;
+
+    return this.http.get<Conge[]>(`${this.apiUrl}/search`, { params });
   }
   // Mettre à jour un congé existant
   updateConge(idC: string, conge: Conge): Observable<Conge> {

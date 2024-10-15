@@ -1,16 +1,22 @@
 <div class="container">
   <h2>Liste des Congés</h2>
   <div class="mb-3">
-    <input type="text" class="form-control" placeholder="Rechercher un congé par statut" (input)="onSearch($event)" />
+    <input 
+      type="text" 
+      class="form-control" 
+      placeholder="Rechercher un congé par statut" 
+      [(ngModel)]="searchStatus" 
+      (input)="onSearch()" 
+    />
   </div>
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Nom et Prenom</th>
+        <th>Nom</th>
         <th>Date de Début</th>
         <th>Date de Fin</th>
         <th>Raison</th>
-        <th>Date de dépot</th>
+        <th>Date de dépôt</th>
         <th>Solde de congés</th>
         <th>Statut</th>
         <th>Action</th>
@@ -18,7 +24,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let conge of conges">
-        <td>{{ conge.username }}</td>
+        <td>{{ conge.nom }}</td>
         <td>{{ conge.dateDebut | date }}</td>
         <td>{{ conge.dateFin | date }}</td>
         <td>{{ conge.reason }}</td>
@@ -33,7 +39,6 @@
             <button name="validate" type="button" (click)="validateVacation(conge)" class="btn btn-secondary">Valider</button>
           </div>
         </td>
-        
       </tr>
     </tbody>
   </table>

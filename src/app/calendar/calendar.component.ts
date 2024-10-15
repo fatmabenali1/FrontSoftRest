@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   reason: string = '';
   isEditing: boolean = false;
   eventIdToEdit: string | null = null;
-
+ nom: String='';
   constructor(private modalService: NgbModal, private congeService: CongeService ,
      private authenticationService : AuthenticationService  ) {}
  
@@ -93,7 +93,8 @@ export class CalendarComponent implements OnInit {
       reason: this.reason,
       dateValidation: new Date(), // Date actuelle pour validation
       title: this.eventTitle,
-      status: Status.PENDING
+      status: Status.PENDING,
+      nom:this.nom
     };
   
     const user = this.authenticationService.userValue;
@@ -142,7 +143,7 @@ export class CalendarComponent implements OnInit {
       reason: this.reason,
       status: Status.PENDING,
       dateValidation: new Date(),
-      title: this.eventTitle // Ajoutez le titre
+      title: this.eventTitle 
     };
 
     this.congeService.updateConge(this.eventIdToEdit!, updatedConge).subscribe(
@@ -185,6 +186,7 @@ export class CalendarComponent implements OnInit {
     this.reason = '';
     this.isEditing = false;
     this.eventIdToEdit = null;
+    this.nom='';
   }
  
 }

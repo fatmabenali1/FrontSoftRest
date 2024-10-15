@@ -1,4 +1,5 @@
 import { Status } from "../status";
+import { Utilisateur } from "./utilisateur.model";
 
 export class Conge {
     idC!: string;
@@ -8,7 +9,13 @@ export class Conge {
     status!: Status; 
     dateValidation!: Date;
     title?: string; 
-    username?:string;
-    countVacation?:number;
+    countVacation?:30;
+    nom?:String ;
+    Utilisateur?: Utilisateur;
+    constructor(utilisateur?: Utilisateur) {
+      if (utilisateur) {
+          this.nom = utilisateur.username; 
+      }
+  }
   }
   

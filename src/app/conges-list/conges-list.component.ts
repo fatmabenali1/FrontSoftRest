@@ -11,40 +11,21 @@ import { Status } from '../status';
 export class CongesListComponent implements OnInit {
   conges: Conge[] = [];
   error: string = '';
+  dateDebut: Date | undefined; // Changez ici
+  endDate: Date | undefined; // Changez ici
+  searchStatus: string = ''; // Ajout de la variable pour le statut de recherche
 
   constructor(private congeService: CongeService) {}
 
   ngOnInit(): void {
-    this.loadConges();  // Charge tous les congés initialement
-  }
-
-  // Fonction pour rechercher les congés par statut
-  onSearch(event: any): void {
-    const status = event.target.value.trim();
-
-    if (status) {
-      this.getCongesByStatus(status);  // Appelle la recherche par statut si l'input n'est pas vide
-    } else {
-      this.loadConges();  // Recharge tous les congés si l'input est vide
-    }
-  }
-
-  getCongesByStatus(status: string): void {
-    this.congeService.getCongesByStatus(status).subscribe({
-      next: (data: Conge[]) => {
-        this.conges = data;
-      },
-      error: (err: any) => {
-        this.error = 'Erreur lors de la recherche des congés';
-        console.error(err);
-      }
-    });
+    this.loadConges();  
   }
 
   loadConges(): void {
     this.congeService.getConges().subscribe({
       next: (data: Conge[]) => {
         this.conges = data;
+        console.log(this.conges);
       },
       error: (err: any) => {
         this.error = 'Erreur lors du chargement des congés';
@@ -53,6 +34,23 @@ export class CongesListComponent implements OnInit {
     });
   }
 
+  onSearch(): void {
+    this.congeService.searchConges(
+      this.dateDebut, 
+      this.endDate
+    ).subscribe({
+      next: (data: Conge[]) => {
+        // Filtrez les congés par statut si searchStatus est renseigné
+        this.conges = data.filter(conge => 
+          conge.status.toLowerCase().includes(this.searchStatus.toLowerCase())
+        );
+      },
+      error: (err: any) => {
+        this.error = 'Erreur lors de la recherche des congés';
+        console.error(err);
+      }
+    });
+  }
   refuseVacation(vacation: Conge): void {
     const refuseVacation = {
       ...vacation,
@@ -82,4 +80,5 @@ export class CongesListComponent implements OnInit {
       }
     });
   }
+
 }
